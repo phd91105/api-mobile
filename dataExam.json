@@ -1,0 +1,14 @@
+{
+  "account": [
+    {
+      "user": "phd051199",
+      "pass": "123",
+      "fullname": "Pham Huu Duy"
+    },
+    {
+      "user": "phd",
+      "pass": "456",
+      "fullname": "Duy"
+    }
+  ]
+}
