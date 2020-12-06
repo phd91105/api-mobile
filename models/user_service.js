@@ -9,5 +9,5 @@ exports.addUser = (email, password) =>
 exports.authenticate = (email, password) =>
   db.auth().signInWithEmailAndPassword(email, password);
 
-exports.signout = () =>
-  db.auth().signOut();
+// exports.signout = () =>
+//   db.auth().signOut();
