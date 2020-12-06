@@ -1,6 +1,6 @@
 'use strict';
 
-const firebase = require('../db');
+const firebase = require('../models/db');
 const Note = require('../models/note');
 const firestore = firebase.firestore();
 
@@ -28,6 +28,7 @@ const getAllNotes = async (req, res, next) => {
                     doc.id,
                     doc.data().uid,
                     doc.data().title,
+                    doc.data().category,
                     doc.data().body,
                     doc.data().displayName,
                     doc.data().created_at,

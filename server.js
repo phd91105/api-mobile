@@ -9,7 +9,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
 
-const userService = require("./user_service");
+const userService = require("./models/user_service");
 
 app.get("/", (req, res) => {
   res.send("Server chạy ngon lành");
