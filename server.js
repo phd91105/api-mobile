@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require('cors');
 const noteRoutes = require('./routes/note-routes');
-const jwt = require('jwt-redis');
+const jwt = require('jsonwebtoken');
 app = express();
 
 app.use(cors());
@@ -35,10 +35,6 @@ app.post("/api/signin", async (req, res) => {
     res.status(401).json({ error: err.message });
   }
 });
-
-app.post("/api/signout", async () => {
-  return jwt.destroy(token);
-})
 
 app.use(function (req, res, next) {
   if (req.headers && req.headers.authorization && String(req.headers.authorization.split(' ')[0]).toLowerCase() === 'bearer') {
