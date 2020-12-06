@@ -25,17 +25,28 @@ app.post("/api/signin", async (req, res) => {
   const { email, password } = req.body;
   try {
     var user = await userService.authenticate(email, password);
-    // var token = jwt.sign(user, '123', { algorithm: 'HS256', expiresIn: '1h' });
-    res.json(user);
+    var token = jwt.sign(user, 'phd_testkey', { algorithm: 'HS256', expiresIn: '1h' });
+    res.json({ access_token: token });
   } catch (err) {
     res.status(401).json({ error: err.message });
   }
 });
 
-// app.use(function (req, res, next) {
+app.use(function (req, res, next) {
 
-//   if (req.headers && req.headers.authorization && String)
-// });
+  if (req.headers && req.headers.authorization && String(req.headers.authorization.split(' ')[0]).toLowerCase() === 'bearer') {
+    var token = req.headers.authorization.split(' ')[1];
+    jwt.verify(token, 'phd_testkey', function (err, decode) {
+      if (err) {
+        return res.status(403).send({ message: 'Token invalid' });
+      }
+      else return next();
+    });
+  }
+  else {
+    return res.status(403).send({ message: 'Unauthorized' })
+  }
+});
 
 app.use('/api', noteRoutes.routes);
 
