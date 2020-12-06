@@ -5,9 +5,9 @@ const assert = require('assert');
 dotenv.config();
 
 const {
-    PORT,
-    HOST,
-    HOST_URL,
+    // PORT,
+    // HOST,
+    // HOST_URL,
     API_KEY,
     AUTH_DOMAIN,
     DATABASE_URL,
