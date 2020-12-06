@@ -39,8 +39,7 @@ app.post("/api/signin", async (req, res) => {
 app.post("/api/signout", async (req, res) => {
   const { email, password } = req.body;
   try {
-    var user = await userService.signout(email, password);
-    // var token = jwt.sign(user, 'phd', { algorithm: 'HS256', expiresIn: '10m' });
+    await userService.signout();
     res.json({ notify: "Sign out successful" });
   } catch (err) {
     res.status(401).json({ error: err.message });
