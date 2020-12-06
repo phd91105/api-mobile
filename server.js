@@ -51,6 +51,17 @@ app.use(function (req, res, next) {
   }
 });
 
+app.post("/api/signout", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    var user = await userService.signout(email, password);
+    // var token = jwt.sign(user, 'phd', { algorithm: 'HS256', expiresIn: '10m' });
+    res.json({ notify: "Sign out successful" });
+  } catch (err) {
+    res.status(401).json({ error: err.message });
+  }
+});
+
 app.use('/api', noteRoutes.routes);
 
 app.set("port", process.env.PORT);
