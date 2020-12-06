@@ -1,9 +1,9 @@
 class Note {
-    constructor(id, body, attachment, author, created_at,
+    constructor(id, username, body, author, created_at,
         updated_at, expires_at, status) {
         this.id = id;
+        this.username = username;
         this.body = body;
-        this.attachment = attachment;
         this.author = author;
         this.created_at = created_at;
         this.updated_at = updated_at;

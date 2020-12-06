@@ -9,7 +9,7 @@ const addNote = async (req, res, next) => {
     try {
         const data = req.body;
         await firestore.collection('notes').doc().set(data);
-        res.send('Record saved successfuly');
+        res.status(200).send({ status: 200, message: 'create note successful!', data: data });
     } catch (error) {
         res.status(400).send(error.message);
     }
@@ -26,8 +26,8 @@ const getAllNotes = async (req, res, next) => {
             data.forEach(doc => {
                 const note = new Note(
                     doc.id,
+                    doc.data().username,
                     doc.data().body,
-                    doc.data().attachment,
                     doc.data().author,
                     doc.data().created_at,
                     doc.data().updated_at,
