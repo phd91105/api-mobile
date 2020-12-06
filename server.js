@@ -36,6 +36,17 @@ app.post("/api/signin", async (req, res) => {
   }
 });
 
+app.post("/api/signout", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    var user = await userService.signout(email, password);
+    // var token = jwt.sign(user, 'phd', { algorithm: 'HS256', expiresIn: '10m' });
+    res.json({ notify: "Sign out successful" });
+  } catch (err) {
+    res.status(401).json({ error: err.message });
+  }
+});
+
 app.use(function (req, res, next) {
   if (req.headers && req.headers.authorization && String(req.headers.authorization.split(' ')[0]).toLowerCase() === 'bearer') {
     var token = req.headers.authorization.split(' ')[1];
@@ -48,17 +59,6 @@ app.use(function (req, res, next) {
   }
   else {
     return res.status(403).send({ message: 'Unauthorized' })
-  }
-});
-
-app.post("/api/signout", async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    var user = await userService.signout(email, password);
-    // var token = jwt.sign(user, 'phd', { algorithm: 'HS256', expiresIn: '10m' });
-    res.json({ notify: "Sign out successful" });
-  } catch (err) {
-    res.status(401).json({ error: err.message });
   }
 });
 
