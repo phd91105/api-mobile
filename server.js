@@ -37,13 +37,9 @@ app.post("/api/signin", async (req, res) => {
 });
 
 app.post("/api/signout", async () => {
-  try {
-    await firebase.auth().signOut();
-    res.json({ notify: "Sign out successful" });
-  } catch (err) {
-    res.status(401).json({ error: err.message });
-  }
-});
+  await userService.auth().logOut();
+  res.json({ status: "log out successful" });
+})
 
 app.use(function (req, res, next) {
   if (req.headers && req.headers.authorization && String(req.headers.authorization.split(' ')[0]).toLowerCase() === 'bearer') {
