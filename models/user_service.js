@@ -8,10 +8,3 @@ exports.addUser = (email, password) =>
 
 exports.authenticate = (email, password) =>
   db.auth().signInWithEmailAndPassword(email, password);
-
-exports.logOut = () =>
-  db.auth().signOut().then(() => {
-    this.setState({
-      user: null
-    })
-  });

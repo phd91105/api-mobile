@@ -36,11 +36,6 @@ app.post("/api/signin", async (req, res) => {
   }
 });
 
-app.post("/api/signout", async () => {
-  await userService.auth().logOut();
-  res.json({ status: "log out successful" });
-})
-
 app.use(function (req, res, next) {
   if (req.headers && req.headers.authorization && String(req.headers.authorization.split(' ')[0]).toLowerCase() === 'bearer') {
     var token = req.headers.authorization.split(' ')[1];
