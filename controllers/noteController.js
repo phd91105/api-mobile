@@ -26,9 +26,10 @@ const getAllNotes = async (req, res, next) => {
             data.forEach(doc => {
                 const note = new Note(
                     doc.id,
-                    doc.data().username,
+                    doc.data().uid,
+                    doc.data().title,
                     doc.data().body,
-                    doc.data().author,
+                    doc.data().displayName,
                     doc.data().created_at,
                     doc.data().updated_at,
                     doc.data().expires_at,

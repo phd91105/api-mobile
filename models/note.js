@@ -1,10 +1,11 @@
 class Note {
-    constructor(id, username, body, author, created_at,
+    constructor(id, uid, title, body, displayName, created_at,
         updated_at, expires_at, status) {
         this.id = id;
-        this.username = username;
+        this.uid = uid;
+        this.title = title;
         this.body = body;
-        this.author = author;
+        this.displayName = displayName; //name of User
         this.created_at = created_at;
         this.updated_at = updated_at;
         this.expires_at = expires_at;
