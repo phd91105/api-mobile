@@ -39,5 +39,12 @@ app.post("/api/signin", async (req, res) => {
 
 app.use('/api', noteRoutes.routes);
 
-const port = process.env.PORT;
-app.listen(port, () => console.log(`Server started at port ${port}`));
+app.set("port", process.env.PORT);
+app.set("ip", process.env.IP);
+server.listen(app.get("port"), app.get("ip"), function () {
+  console.log(
+    "Chat bot server listening at %s:%d ",
+    app.get("ip"),
+    app.get("port")
+  );
+});
