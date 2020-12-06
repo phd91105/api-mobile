@@ -40,11 +40,9 @@ app.post("/api/signin", async (req, res) => {
 app.use('/api', noteRoutes.routes);
 
 app.set("port", process.env.PORT);
-app.set("host", process.env.HOST);
-app.listen(app.get("port"), app.get("host"), function () {
+app.listen(app.get("port"), function () {
   console.log(
-    "server listening at %s:%d ",
-    app.get("ip"),
+    "Server listening at port %d ",
     app.get("port")
   );
 });
