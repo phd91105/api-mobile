@@ -30,7 +30,7 @@ app.post("/api/signin", async (req, res) => {
   try {
     var user = await userService.authenticate(email, password);
     var accesstoken = jwt.sign(user, 'phd', { algorithm: 'HS256', expiresIn: '10m' });
-    res.status(201).json({ accessToken: accesstoken });
+    res.status(200).json({ accessToken: accesstoken });
   } catch (err) {
     res.status(401).json({ error: err.message });
   }
