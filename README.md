@@ -24,6 +24,10 @@ Headers:
 ```
 Authorization: Bearer {your_login_token}
 ```
+Body:
+```json
+  { "uid": "", "title": "", "body": "", "create_at": null, "update_at": null, "expires_at": null }
+```
 #### Get all note
 ```
   GET https://api-mobile-app.herokuapp.com/api/notes
