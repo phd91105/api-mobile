@@ -2,7 +2,9 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+// const jwt = require('jsonwebtoken');
 const config = require('./config');
+
 const noteRoutes = require('./routes/note-routes');
 const accountRoutes = require('./routes/account-routes');
 
@@ -14,6 +16,5 @@ app.use(bodyParser.json());
 
 app.use('/api', accountRoutes.routes);
 app.use('/api', noteRoutes.routes);
-
 
 app.listen(config.port, () => console.log('App is listening on url http://localhost:' + config.port));
