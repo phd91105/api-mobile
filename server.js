@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require('cors');
 const noteRoutes = require('./routes/note-routes');
+const jwt = require('jsonwebtoken');
 app = express();
 
 app.use(cors());
@@ -23,12 +24,18 @@ app.post("/api/signup", async (req, res) => {
 app.post("/api/signin", async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await userService.authenticate(email, password);
-    res.json(user);
+    var user = await userService.authenticate(email, password);
+    var token = jwt.sign(user, '123', { algorithm: 'HS256', expiresIn: '1h' });
+    res.json({ access_token: token });
   } catch (err) {
     res.status(401).json({ error: err.message });
   }
 });
+
+// app.use(function (req, res, next) {
+
+//   if (req.headers && req.headers.authorization && String)
+// });
 
 app.use('/api', noteRoutes.routes);
 
