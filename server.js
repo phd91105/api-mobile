@@ -36,7 +36,7 @@ app.post("/api/signin", async (req, res) => {
   }
 });
 
-app.post("/api/signout", () => {
+app.post("/api/signout", async () => {
   try {
     await firebase.auth().signOut();
     res.json({ notify: "Sign out successful" });
