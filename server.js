@@ -11,7 +11,7 @@ app.use(express.json());
 const userService = require("./models/user_service");
 
 app.get("/", (req, res) => {
-  res.send("Server chạy ngon lành");
+  res.send("Server is running");
 });
 
 app.post("/api/signup", async (req, res) => {
