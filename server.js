@@ -61,16 +61,6 @@ app.use(function (req, res, next) {
   }
 });
 
-// app.post("/api/updateProfile", async (req, res) => {
-//   const { displayName } = req.body;
-//   try {
-//     await userService.updateprofile(displayName);
-//     res.status(201).json({ message: "update success" });
-//   } catch (err) {
-//     res.status(401).json({ error: err.message });
-//   }
-// });
-
 app.use('/api', noteRoutes.routes);
 
 app.set("port", process.env.PORT);
