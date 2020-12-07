@@ -27,22 +27,20 @@ app.post("/api/signup", async (req, res) => {
 app.post("/api/signin", async (req, res) => {
   const { email, password } = req.body;
   try {
-    var user = await userService.authenticate(email, password);
+    user = await userService.authenticate(email, password);
     accesstoken = user.user.ya;
     refreshtoken = user.user.refreshToken;
     res.status(201).json({ accessToken: accesstoken, refreshToken: refreshtoken });
-    // res.json(user);
   } catch (err) {
     res.status(401).json({ error: err.message });
   }
 });
 
-app.post("/api/resetpass", async (req, res) => {
+app.post("/api/resetPass", async (req, res) => {
   const { email } = req.body;
   try {
-    var send = await userService.resetemail(email);
+    await userService.resetEmail(email);
     res.status(201).json({ message: "link has been sent! check your inbox to reset password" });
-    // res.json(user);
   } catch (err) {
     res.status(401).json({ error: err.message });
   }
@@ -62,6 +60,16 @@ app.use(function (req, res, next) {
     return res.status(403).send({ message: 'Unauthorized' });
   }
 });
+
+// app.post("/api/updateProfile", async (req, res) => {
+//   const { displayName } = req.body;
+//   try {
+//     await userService.updateprofile(displayName);
+//     res.status(201).json({ message: "update success" });
+//   } catch (err) {
+//     res.status(401).json({ error: err.message });
+//   }
+// });
 
 app.use('/api', noteRoutes.routes);
 
