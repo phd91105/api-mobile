@@ -2,7 +2,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require('cors');
 const noteRoutes = require('./routes/note-routes');
-const jwt = require('jsonwebtoken');
 app = express();
 
 app.use(cors());
@@ -29,8 +28,10 @@ app.post("/api/signin", async (req, res) => {
   const { email, password } = req.body;
   try {
     var user = await userService.authenticate(email, password);
-    var accesstoken = jwt.sign(user, 'phd', { algorithm: 'HS256', expiresIn: '10m' });
-    res.status(200).json({ accessToken: accesstoken });
+    accesstoken = user.user.ya;
+    refreshtoken = user.user.refreshToken;
+    // res.status(201).json({ accessToken: accesstoken, refreshToken: refreshtoken });
+    res.json(user);
   } catch (err) {
     res.status(401).json({ error: err.message });
   }
@@ -39,15 +40,15 @@ app.post("/api/signin", async (req, res) => {
 app.use(function (req, res, next) {
   if (req.headers && req.headers.authorization && String(req.headers.authorization.split(' ')[0]).toLowerCase() === 'bearer') {
     var token = req.headers.authorization.split(' ')[1];
-    jwt.verify(token, 'phd', function (err, decode) {
-      if (err) {
-        return res.status(403).send({ message: 'Token invalid' });
-      }
-      else return next();
-    });
+    if (token == accesstoken) {
+      return next();
+    }
+    else {
+      return res.status(403).send({ message: 'Invalid Token' })
+    }
   }
   else {
-    return res.status(403).send({ message: 'Unauthorized' })
+    return res.status(403).send({ message: 'Unauthorized' });
   }
 });
 
