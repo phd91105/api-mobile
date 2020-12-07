@@ -28,11 +28,9 @@ app.post("/api/signup", async (req, res) => {
 app.post("/api/signin", async (req, res) => {
   const { email, password } = req.body;
   try {
-    user = await userService.authenticate(email, password);
-    // accesstoken = user.user.ya;
-    refreshtoken = user.user.refreshToken;
-    var accesstoken = jwt.sign(user, 'phd', { algorithm: 'HS256', expiresIn: '10m' });
-    res.status(201).json({ accessToken: accesstoken, refreshToken: refreshtoken });
+    var user = await userService.authenticate(email, password);
+    var accesstoken = jwt.sign({ uid: user.user.uid }, 'token-secret-key', { algorithm: 'HS256', expiresIn: '10m' });
+    res.status(201).json({ accessToken: accesstoken });
   } catch (err) {
     res.status(401).json({ error: err.message });
   }
@@ -66,7 +64,7 @@ app.post("/api/resetpass", async (req, res) => {
 app.use(function (req, res, next) {
   if (req.headers && req.headers.authorization && String(req.headers.authorization.split(' ')[0]).toLowerCase() === 'bearer') {
     var token = req.headers.authorization.split(' ')[1];
-    jwt.verify(token, 'phd', function (err, decode) {
+    jwt.verify(token, 'token-secret-key', function (err, decode) {
       if (err) {
         return res.status(403).send({ message: 'Token invalid' });
       }
