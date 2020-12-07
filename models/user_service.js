@@ -8,3 +8,6 @@ exports.addUser = (email, password) =>
 
 exports.authenticate = (email, password) =>
   db.auth().signInWithEmailAndPassword(email, password);
+
+exports.resetemail = (email) =>
+  db.auth().sendPasswordResetEmail(email);

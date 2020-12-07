@@ -37,6 +37,17 @@ app.post("/api/signin", async (req, res) => {
   }
 });
 
+app.post("/api/resetpass", async (req, res) => {
+  const { email } = req.body;
+  try {
+    var send = await userService.resetemail(email);
+    res.status(201).json({ message: "link has been sent! check your inbox to reset password" });
+    // res.json(user);
+  } catch (err) {
+    res.status(401).json({ error: err.message });
+  }
+});
+
 app.use(function (req, res, next) {
   if (req.headers && req.headers.authorization && String(req.headers.authorization.split(' ')[0]).toLowerCase() === 'bearer') {
     var token = req.headers.authorization.split(' ')[1];
