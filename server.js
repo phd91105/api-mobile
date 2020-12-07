@@ -28,30 +28,12 @@ app.post("/api/signup", async (req, res) => {
 app.post("/api/signin", async (req, res) => {
   const { email, password } = req.body;
   try {
-    user = await userService.authenticate(email, password);
-    // accesstoken = user.user.ya;
-    // refreshtoken = user.user.refreshToken;
-    // res.status(201).json({ accessToken: accesstoken, refreshToken: refreshtoken });
+    var user = await userService.authenticate(email, password);
     res.json(user);
   } catch (err) {
     res.status(401).json({ error: err.message });
   }
 });
-
-// app.use(function (req, res, next) {
-//   if (req.headers && req.headers.authorization && String(req.headers.authorization.split(' ')[0]).toLowerCase() === 'bearer') {
-//     var token = req.headers.authorization.split(' ')[1];
-//     if (token == accesstoken) {
-//       return next();
-//     }
-//     else {
-//       return res.status(403).send({ message: 'Invalid Token' })
-//     }
-//   }
-//   else {
-//     return res.status(403).send({ message: 'Unauthorized' });
-//   }
-// });
 
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
@@ -59,6 +41,15 @@ firebase.auth().onAuthStateChanged(function (user) {
     app.use('/api', noteRoutes.routes);
   } else {
     // No user is signed in.
+  }
+});
+
+app.post("/api/signout", async (req, res) => {
+  try {
+    await userService.signout();
+    res.json({ message: "sign out successful" });
+  } catch (err) {
+    res.status(401).json({ error: err.message });
   }
 });
 
