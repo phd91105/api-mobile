@@ -44,15 +44,6 @@ firebase.auth().onAuthStateChanged(function (user) {
   }
 });
 
-app.post("/api/signout", async (req, res) => {
-  try {
-    await userService.signout();
-    res.json({ message: "sign out successful" });
-  } catch (err) {
-    res.status(401).json({ error: err.message });
-  }
-});
-
 app.set("port", process.env.PORT);
 app.listen(app.get("port"), function () {
   console.log(
