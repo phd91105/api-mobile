@@ -36,10 +36,10 @@ app.post("/api/signin", async (req, res) => {
   }
 });
 
-app.post("/api/resetPass", async (req, res) => {
+app.post("/api/resetpass", async (req, res) => {
   const { email } = req.body;
   try {
-    await userService.resetEmail(email);
+    await userService.resetPass(email);
     res.status(201).json({ message: "link has been sent! check your inbox to reset password" });
   } catch (err) {
     res.status(401).json({ error: err.message });
