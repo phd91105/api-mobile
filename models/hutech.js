@@ -1,4 +1,4 @@
-let request = require('request-promise');
+var reqpm = require('request-promise');
 const cheerio = require('cheerio');
 const fs = require('fs');
 
@@ -7,8 +7,8 @@ const API_SERVER = 'http://daotao.hutech.edu.vn';
 
 class APIHutech {
     constructor() {
-        this.jar = request.jar();
-        request = request.defaults({
+        this.jar = reqpm.jar();
+        reqpm = reqpm.defaults({
             headers: {
                 'Cache-Control': 'max-age=0',
                 'Upgrade-Insecure-Requests': 1,
@@ -77,7 +77,7 @@ class APIHutech {
         };
 
         if (data.isTransform) form.transform = body => cheerio.load(body);
-        return request(form);
+        return reqpm(form);
     }
 }
 module.exports = APIHutech;
