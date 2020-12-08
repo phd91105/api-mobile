@@ -1,5 +1,4 @@
 'use strict';
-
 const firebase = require('../models/db');
 const Note = require('../models/note');
 const firestore = firebase.firestore();
