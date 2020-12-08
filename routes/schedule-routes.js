@@ -1,5 +1,5 @@
 const express = require("express");
-const APIHutech = require('../models/hutech');
+const APIHutech = require('../controllers/hutech');
 const API = new APIHutech();
 const router = express.Router();
 
