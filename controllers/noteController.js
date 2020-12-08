@@ -93,7 +93,7 @@ const deleteNote = async (req, res, next) => {
     try {
         const id = req.params.id;
         await firestore.collection('notes').doc(id).delete();
-        res.send('Record deleted successfuly');
+        res.send({ message: 'Record deleted successfuly' });
     } catch (error) {
         res.status(400).send(error.message);
     }
