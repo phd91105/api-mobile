@@ -7,9 +7,20 @@ const firestore = firebase.firestore();
 
 const addNote = async (req, res, next) => {
     try {
-        const data = req.body;
-        await firestore.collection('notes').doc().set(data);
-        res.status(200).send({ status: 200, message: 'create note successful!', data: data });
+        const body = req.body;
+        const data = {
+            uid: uid,
+            category: body.category,
+            title: body.title,
+            body: body.body,
+            displayName: body.displayName,
+            created_at: Date.now(),
+            updated_at: body.updated_at,
+            expires_at: body.expires_at,
+            status: body.status,
+        };
+        const note = await firestore.collection('notes').doc().set(data);
+        res.status(200).send({ status: 200, message: 'create note successful!', data: note });
     } catch (error) {
         res.status(400).send(error.message);
     }
@@ -18,7 +29,7 @@ const addNote = async (req, res, next) => {
 const getAllNotes = async (req, res, next) => {
     try {
         const notes = await firestore.collection('notes');
-        const data = await notes.get();
+        const data = await notes.where('uid', '==', uid).get();
         const notesArray = [];
         if (data.empty) {
             res.status(404).send('No note record found');
