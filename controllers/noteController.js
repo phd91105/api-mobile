@@ -92,8 +92,13 @@ const updateNote = async (req, res, next) => {
 const deleteNote = async (req, res, next) => {
     try {
         const id = req.params.id;
-        await firestore.collection('notes').doc(id).delete();
-        res.send({ message: 'Record deleted successfuly' });
+        const data = await firestore.collection('notes').doc(id).delete();
+        // await firestore.collection('notes').doc(id).delete();
+        if (!data.exists) {
+            res.status(404).send({ message: 'Note with the given ID not found' });
+        } else {
+            res.send({ message: 'Record deleted successfuly' });
+        }
     } catch (error) {
         res.status(400).send(error.message);
     }
