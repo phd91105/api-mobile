@@ -14,7 +14,7 @@ app.use(express.json());
 
 /****************************************/
 app.get("/", (req, res) => {
-  res.send("Server is running");
+  res.send(`Server is listening at port ${app.get("port")}`);
 });
 /****************************************/
 app.use('/api', scheduleRoutes.routes);
@@ -49,7 +49,7 @@ app.post("/api/resetpass", async (req, res) => {
     res.status(401).json({ error: err.message });
   }
 });
-/********** midleware verify token ***********/
+/********* midleware verify token *******/
 app.use(function (req, res, next) {
   if (req.headers && req.headers.authorization && String(req.headers.authorization.split(' ')[0]).toLowerCase() === 'bearer') {
     var token = req.headers.authorization.split(' ')[1];
@@ -69,8 +69,6 @@ app.use(function (req, res, next) {
 /****************************************/
 app.use('/api', noteRoutes.routes);
 /****************************************/
-
-
 
 /****************************************/
 app.set("port", process.env.PORT);
