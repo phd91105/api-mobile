@@ -29,7 +29,7 @@ app.post("/api/signin", async (req, res) => {
   const { email, password } = req.body;
   try {
     var user = await userService.authenticate(email, password);
-    var accesstoken = jwt.sign({ uid: user.user.uid }, 'token-secret-key', { algorithm: 'HS256', expiresIn: '10m' });
+    var accesstoken = jwt.sign({ uid: user.user.uid, key: user.user.l, provider: user.user.providerData }, 'token-secret-key', { algorithm: 'HS256', expiresIn: '10m' });
     res.status(201).json({ accessToken: accesstoken });
   } catch (err) {
     res.status(401).json({ error: err.message });
@@ -40,7 +40,7 @@ app.post("/api/resetpass", async (req, res) => {
   const { email } = req.body;
   try {
     await userService.resetPass(email);
-    res.status(201).json({ message: "link has been sent! check your inbox to reset password" });
+    res.status(200).json({ message: "link has been sent! check your inbox to reset password" });
   } catch (err) {
     res.status(401).json({ error: err.message });
   }
