@@ -16,6 +16,14 @@ Body:
 ```json
   { "email": "example@email.com", "password": "yourpassword" }
 ```
+### Forgot password
+```
+  POST https://api-mobile-app.herokuapp.com/api/resetpass
+```
+Body:
+```json
+  { "email": "example@email.com" }
+```
 ### Create new note
 ```
   POST https://api-mobile-app.herokuapp.com/api/note
@@ -51,6 +59,11 @@ Authorization: Bearer {your_login_token}
 Headers:
 ```
 Authorization: Bearer {your_login_token}
+
+```
+Body:
+```json
+  { "category": "", "title": "", "body": "", "expires_at": null, "status": 1 }
 ```
 ### Delete note by id
 ```
