@@ -97,7 +97,7 @@ const deleteNote = async (req, res, next) => {
         if (!data.exists) {
             res.status(404).send({ message: 'Note with the given ID not found' });
         } else {
-            data.delete();
+            await data.delete();
             res.send({ message: 'Record deleted successfuly' });
         }
     } catch (error) {
