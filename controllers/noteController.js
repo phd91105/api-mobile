@@ -19,7 +19,7 @@ const addNote = async (req, res, next) => {
             status: body.status,
         };
         const note = await firestore.collection('notes').doc().set(data);
-        res.status(200).send({ status: 200, message: 'create note successful!', data: note });
+        res.status(201).send({ status: 200, message: 'create note successful!', data: note });
     } catch (error) {
         res.status(400).send(error.message);
     }

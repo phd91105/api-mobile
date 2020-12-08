@@ -19,9 +19,9 @@ app.post("/api/signup", async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await userService.addUser(email, password);
-    res.status(201).json(user);
+    res.status(200).json(user);
   } catch (err) {
-    res.status(401).json({ error: err.message });
+    res.status(400).json({ error: err.message });
   }
 });
 
@@ -30,10 +30,10 @@ app.post("/api/signin", async (req, res) => {
   try {
     var user = await userService.authenticate(email, password);
     uid = user.user.uid;
-    var accesstoken = jwt.sign({ uid: uid, key: user.user.l, provider: user.user.providerData }, 'token-secret-key', { algorithm: 'HS256', expiresIn: '10m' });
-    res.status(201).json({ accessToken: accesstoken });
+    var accesstoken = jwt.sign({ uid: uid, key: user.user.l, provider: user.user.providerData }, 'token-secret-key', { algorithm: 'HS256', expiresIn: '1d' });
+    res.status(200).json({ accessToken: accesstoken });
   } catch (err) {
-    res.status(401).json({ error: err.message });
+    res.status(400).json({ error: err.message });
   }
 });
 
