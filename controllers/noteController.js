@@ -13,9 +13,8 @@ const addNote = async (req, res, next) => {
             category: body.category,
             title: body.title,
             body: body.body,
-            displayName: body.displayName,
             created_at: Date.now(),
-            updated_at: body.updated_at,
+            updated_at: null,
             expires_at: body.expires_at,
             status: body.status,
         };
@@ -29,19 +28,18 @@ const addNote = async (req, res, next) => {
 const getAllNotes = async (req, res, next) => {
     try {
         const notes = await firestore.collection('notes');
-        const data = await notes.where('uid', '==', uid).get();
+        const data = await notes.where('uid', '==', uid).orderBy('created_at').get();
         const notesArray = [];
         if (data.empty) {
-            res.status(404).send('No note record found');
+            res.status(404).send({ message: 'No note record found' });
         } else {
             data.forEach(doc => {
                 const note = new Note(
                     doc.id,
                     doc.data().uid,
-                    doc.data().title,
                     doc.data().category,
+                    doc.data().title,
                     doc.data().body,
-                    doc.data().displayName,
                     doc.data().created_at,
                     doc.data().updated_at,
                     doc.data().expires_at,
@@ -60,9 +58,9 @@ const getNote = async (req, res, next) => {
     try {
         const id = req.params.id;
         const note = await firestore.collection('notes').doc(id);
-        const data = await note.get();
+        const data = await note.where('uid', '==', uid).get();
         if (!data.exists) {
-            res.status(404).send('Note with the given ID not found');
+            res.status(404).send({ message: 'Note with the given ID not found' });
         } else {
             res.send(data.data());
         }
@@ -74,10 +72,18 @@ const getNote = async (req, res, next) => {
 const updateNote = async (req, res, next) => {
     try {
         const id = req.params.id;
-        const data = req.body;
+        const body = req.body;
+        const data = {
+            category: body.category,
+            title: body.title,
+            body: body.body,
+            updated_at: Date.now(),
+            expires_at: body.expires_at,
+            status: body.status,
+        };
         const note = await firestore.collection('notes').doc(id);
         await note.update(data);
-        res.send('Note record updated successfuly');
+        res.send({ message: 'Note record updated successfuly' });
     } catch (error) {
         res.status(400).send(error.message);
     }
