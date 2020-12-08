@@ -28,7 +28,7 @@ const addNote = async (req, res, next) => {
 const getAllNotes = async (req, res, next) => {
     try {
         const notes = await firestore.collection('notes');
-        const data = await notes.where('uid', '==', uid).orderBy('created_at').get();
+        const data = await notes.where('uid', '==', uid).get();
         const notesArray = [];
         if (data.empty) {
             res.status(404).send({ message: 'No note record found' });
