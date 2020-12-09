@@ -8,14 +8,7 @@ const addNote = async (req, res, next) => {
     try {
         const body = req.body;
         const data = {
-            uid: uid,
-            category: body.category,
-            title: body.title,
-            body: body.body,
-            created_at: Date.now(),
-            updated_at: null,
-            expires_at: body.expires_at,
-            status: body.status,
+            uid: uid, category: body.category, title: body.title, body: body.body, created_at: Date.now(), updated_at: null, expires_at: body.expires_at, status: body.status,
         };
         const note = await firestore.collection('notes').doc().set(data);
         res.status(201).send({ message: 'create note successful!', data: note });
@@ -26,53 +19,20 @@ const addNote = async (req, res, next) => {
 
 const getAllNotes = async (req, res, next) => {
     try {
+        const param = req.query;
         const notes = await firestore.collection('notes');
-        const data = await notes.where('uid', '==', uid).get();
-        const notesArray = [];
-        if (data.empty) {
-            res.status(404).send({ message: 'No note record found' });
+        if (param == undefined) {
+            var data = await notes.where('uid', '==', uid).get();
         } else {
-            data.forEach(doc => {
-                const note = new Note(
-                    doc.id,
-                    doc.data().uid,
-                    doc.data().category,
-                    doc.data().title,
-                    doc.data().body,
-                    doc.data().created_at,
-                    doc.data().updated_at,
-                    doc.data().expires_at,
-                    doc.data().status
-                );
-                notesArray.push(note);
-            });
-            res.send(notesArray);
+            var data = await notes.where('uid', '==', uid).where('category', '==', param.category).get();
         }
-    } catch (error) {
-        res.status(400).send(error.message);
-    }
-}
-
-const getNotesbyCategory = async (req, res, next) => {
-    try {
-        const category = req.params.category;
-        const notes = await firestore.collection('notes');
-        const data = await notes.where('uid', '==', uid).where('category', '==', category).get();
         const notesArray = [];
         if (data.empty) {
             res.status(404).send({ message: 'No note record found' });
         } else {
             data.forEach(doc => {
                 const note = new Note(
-                    doc.id,
-                    doc.data().uid,
-                    doc.data().category,
-                    doc.data().title,
-                    doc.data().body,
-                    doc.data().created_at,
-                    doc.data().updated_at,
-                    doc.data().expires_at,
-                    doc.data().status
+                    doc.id, doc.data().uid, doc.data().category, doc.data().title, doc.data().body, doc.data().created_at, doc.data().updated_at, doc.data().expires_at, doc.data().status
                 );
                 notesArray.push(note);
             });
@@ -131,7 +91,6 @@ const deleteNote = async (req, res, next) => {
 module.exports = {
     addNote,
     getAllNotes,
-    getNotesbyCategory,
     getNote,
     updateNote,
     deleteNote
