@@ -53,6 +53,36 @@ const getAllNotes = async (req, res, next) => {
     }
 }
 
+const getNotesbyCategory = async (req, res, next) => {
+    try {
+        const category = req.params.category;
+        const notes = await firestore.collection('notes');
+        const data = await notes.where('uid', '==', uid).where('category', '==', category).get();
+        const notesArray = [];
+        if (data.empty) {
+            res.status(404).send({ message: 'No note record found' });
+        } else {
+            data.forEach(doc => {
+                const note = new Note(
+                    doc.id,
+                    doc.data().uid,
+                    doc.data().category,
+                    doc.data().title,
+                    doc.data().body,
+                    doc.data().created_at,
+                    doc.data().updated_at,
+                    doc.data().expires_at,
+                    doc.data().status
+                );
+                notesArray.push(note);
+            });
+            res.send(notesArray);
+        }
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+}
+
 const getNote = async (req, res, next) => {
     try {
         const id = req.params.id;
@@ -101,6 +131,7 @@ const deleteNote = async (req, res, next) => {
 module.exports = {
     addNote,
     getAllNotes,
+    getNotesbyCategory,
     getNote,
     updateNote,
     deleteNote

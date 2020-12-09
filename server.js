@@ -1,10 +1,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require('cors');
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
 
 const noteRoutes = require('./routes/note-routes');
-const scheduleRoutes = require('./routes/schedule-routes')
+const scheduleRoutes = require('./routes/schedule-routes');
 const userService = require("./models/user_service");
 
 app = express();
