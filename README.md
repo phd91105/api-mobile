@@ -44,6 +44,14 @@ Headers:
 ```
 Authorization: Bearer {your_login_token}
 ```
+### Get by category
+```
+  GET https://api-mobile-app.herokuapp.com/api/notes?category={cate}
+```
+Headers:
+```
+Authorization: Bearer {your_login_token}
+```
 ### Get note by id
 ```
   GET https://api-mobile-app.herokuapp.com/api/note/{id}
