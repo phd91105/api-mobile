@@ -67,6 +67,7 @@ class APIHutech {
             }
         });
     }
+
     requestServer(data = { pathURI, formData: '', isTransform: false }) {
 
         let form = {

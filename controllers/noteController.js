@@ -19,12 +19,12 @@ const addNote = async (req, res, next) => {
 
 const getAllNotes = async (req, res, next) => {
     try {
-        const param = req.query;
+        const param = req.query.category;
         const notes = await firestore.collection('notes');
         if (param == undefined) {
             var data = await notes.where('uid', '==', uid).get();
         } else {
-            var data = await notes.where('uid', '==', uid).where('category', '==', param.category).get();
+            var data = await notes.where('uid', '==', uid).where('category', '==', param).get();
         }
         const notesArray = [];
         if (data.empty) {
