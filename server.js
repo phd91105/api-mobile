@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require('cors');
 const jwt = require("jsonwebtoken");
+const firebase = require("firebase");
 
 const noteRoutes = require('./routes/note-routes');
 const scheduleRoutes = require('./routes/schedule-routes');
@@ -36,8 +37,10 @@ app.post("/api/signin", async (req, res) => {
   const { email, password } = req.body;
   try {
     var user = await userService.authenticate(email, password);
-    var accesstoken = jwt.sign({ uid: user.user.uid, email: user.user.email, name: user.user.displayName, photoUrl: user.user.photoUrl }, 'secret-key', { algorithm: 'HS256', expiresIn: '1d' });
-    res.status(200).json({ accessToken: accesstoken, expiresIn: Date.now() + 86400 * 100 });
+    currentuser = user.user;
+    // var accesstoken = jwt.sign({ uid: user.user.uid, email: user.user.email, name: user.user.displayName, photoUrl: user.user.photoUrl }, 'secret-key', { algorithm: 'HS256', expiresIn: '1d' });
+    res.status(200).json({ email: currentuser.email, accessToken: currentuser.ya, refreshToken: currentuser.refreshToken });
+    // res.status(200).json(user);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -55,28 +58,38 @@ app.post("/api/resetpass", async (req, res) => {
 });
 
 /********* middleware verify token *******/
+// app.use(function (req, res, next) {
+//   if (req.headers && req.headers.authorization && String(req.headers.authorization.split(' ')[0]).toLowerCase() === 'bearer') {
+//     var token = req.headers.authorization.split(' ')[1];
+//     var decodetoken = jwt.decode(token);
+//     uid = decodetoken.uid;
+//     email = decodetoken.email;
+//     displayName = decodetoken.displayName;
+//     jwt.verify(token, 'secret-key', function (err, decode) {
+//       if (err) {
+//         return res.status(403).send({ message: 'token invalid' });
+//       }
+//       else return next();
+//     });
+//   }
+//   else {
+//     return res.status(403).send({ message: 'Unauthorized' })
+//   }
+// });
+
 app.use(function (req, res, next) {
-  if (req.headers && req.headers.authorization && String(req.headers.authorization.split(' ')[0]).toLowerCase() === 'bearer') {
-    var token = req.headers.authorization.split(' ')[1];
-    var decodetoken = jwt.decode(token);
-    uid = decodetoken.uid;
-    email = decodetoken.email;
-    displayName = decodetoken.displayName;
-    jwt.verify(token, 'secret-key', function (err, decode) {
-      if (err) {
-        return res.status(403).send({ message: 'token invalid' });
-      }
-      else return next();
-    });
-  }
-  else {
-    return res.status(403).send({ message: 'Unauthorized' })
-  }
-});
+  uid = currentuser.uid;
+  next();
+})
 
 /****************************************/
-app.use('/api', noteRoutes.routes);
-/****************************************/
+firebase.auth().onAuthStateChanged(function (user) {
+  if (user) {
+    app.use('/api', noteRoutes.routes);
+  } else {
+
+  }
+});
 
 /****************************************/
 app.set("port", process.env.PORT);
