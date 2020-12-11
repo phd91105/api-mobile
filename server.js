@@ -35,7 +35,7 @@ app.post("/api/signin", async (req, res) => {
   try {
     var user = await userService.authenticate(email, password);
     currentuser = firebase.auth().currentUser;
-    res.status(200).json({ uid: currentuser.uid, email: currentuser.email, displayName: currentuser.displayName, photoURL: currentuser.photoURL, accessToken: currentuser.ya, refreshToken: currentuser.refreshToken });
+    res.status(200).json({ accessToken: currentuser.ya, refreshToken: currentuser.refreshToken });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
