@@ -106,9 +106,7 @@ firebase.auth().onAuthStateChanged(function (user) {
         res.send({ error: error.message });
       });
     });
-  } else {
-    console.log('error');
-  }
+  };
 });
 /****************************************/
 app.set("port", process.env.PORT);
