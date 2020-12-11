@@ -57,7 +57,7 @@ app.use(function (req, res, next) {
     next();
   }
   catch (e) {
-    res.send({ error: e.message });
+    res.status(401).send({ error: e.message });
   }
 })
 /************ firebase auth ***************/
