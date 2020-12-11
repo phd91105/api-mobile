@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require('cors');
 const firebase = require("firebase");
 
+const categoryRoutes = require('./routes/category-routes');
 const noteRoutes = require('./routes/note-routes');
 const scheduleRoutes = require('./routes/schedule-routes');
 const userService = require("./models/user_service");
@@ -49,25 +50,6 @@ app.post("/api/resetpass", async (req, res) => {
     res.status(401).json({ error: err.message });
   }
 });
-/********* middleware verify token *******/
-// app.use(function (req, res, next) {
-//   if (req.headers && req.headers.authorization && String(req.headers.authorization.split(' ')[0]).toLowerCase() === 'bearer') {
-//     var token = req.headers.authorization.split(' ')[1];
-//     var decodetoken = jwt.decode(token);
-//     uid = decodetoken.uid;
-//     email = decodetoken.email;
-//     displayName = decodetoken.displayName;
-//     jwt.verify(token, 'secret-key', function (err, decode) {
-//       if (err) {
-//         return res.status(403).send({ message: 'token invalid' });
-//       }
-//       else return next();
-//     });
-//   }
-//   else {
-//     return res.status(403).send({ message: 'Unauthorized' })
-//   }
-// });
 /************* middleware ****************/
 app.use(function (req, res, next) {
   try {
@@ -83,6 +65,7 @@ firebase.auth().languageCode = 'vi';
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
     app.use('/api', noteRoutes.routes);
+    app.use('/api', categoryRoutes.routes);
     app.post('/api/updateprofile', (req, res) => {
       currentuser.updateProfile({
         displayName: req.body.displayName,
@@ -124,7 +107,7 @@ firebase.auth().onAuthStateChanged(function (user) {
       });
     });
   } else {
-    // console.log('error 1');
+    console.log('error');
   }
 });
 /****************************************/
