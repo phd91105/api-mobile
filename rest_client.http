@@ -1,0 +1,16 @@
+POST https://api-mobile-app.herokuapp.com/api/signup
+content-type: application/json
+
+{ "email": "phd9911@gmail.com", "password": "123456" }
+######################
+POST https://api-mobile-app.herokuapp.com/api/signin
+content-type: application/json
+
+{ "email": "phd9911@gmail.com", "password": "123456" }
+#######################
+POST https://api-mobile-app.herokuapp.com/api/resetpass
+content-type: application/json
+
+{ "email": "example@email.com" }
+#######################
+GET https://api-mobile-app.herokuapp.com/api/notes?category=home
