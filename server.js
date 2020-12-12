@@ -55,7 +55,7 @@ app.post("/api/resetpass", async (req, res) => {
     res.status(401).json({ error: err.message });
   }
 });
-/************* middleware ****************/
+/************** middleware ***************/
 app.use(function (req, res, next) {
   try {
     uid = currentuser.uid;
