@@ -1,6 +1,5 @@
 var reqpm = require("request-promise");
 const cheerio = require("cheerio");
-const fs = require("fs");
 
 const periodBoard = require("../models/periodBoard");
 const API_SERVER = "http://daotao.hutech.edu.vn";
