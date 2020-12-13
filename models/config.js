@@ -1,5 +1,5 @@
-const dotenv = require("dotenv");
-const assert = require("assert");
+const dotenv = require('dotenv');
+require('assert');
 
 dotenv.config();
 

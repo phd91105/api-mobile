@@ -1,8 +1,8 @@
-const firebase = require("firebase/app");
-require("firebase/auth");
-require("./config");
-const db = require("./db");
-firebase.auth().languageCode = "vi";
+const firebase = require('firebase/app');
+require('firebase/auth');
+require('./config');
+const db = require('./db');
+firebase.auth().languageCode = 'vi';
 
 exports.addUser = (email, password) =>
   db.auth().createUserWithEmailAndPassword(email, password);

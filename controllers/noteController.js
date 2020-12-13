@@ -1,5 +1,6 @@
-const firebase = require("../models/db");
-const Note = require("../models/note");
+/* eslint-disable no-var */
+const firebase = require('../models/db');
+const Note = require('../models/note');
 const firestore = firebase.firestore();
 
 const addNote = async (req, res, next) => {
@@ -13,11 +14,11 @@ const addNote = async (req, res, next) => {
       created_at: Date.now(),
       updated_at: null,
       expires_at: body.expires_at,
-      priority : body.priority,
+      priority: body.priority,
       status: body.status,
     };
-    const note = await firestore.collection("notes").doc().set(data);
-    res.status(201).send({ message: "create note successful!", data: note });
+    const note = await firestore.collection('notes').doc().set(data);
+    res.status(201).send({message: 'create note successful!', data: note});
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -26,31 +27,31 @@ const addNote = async (req, res, next) => {
 const getAllNotes = async (req, res, next) => {
   try {
     const param = req.query.category;
-    const notes = await firestore.collection("notes");
+    const notes = await firestore.collection(`notes`);
     if (param == undefined) {
-      var data = await notes.where("uid", "==", uid).get();
+      var data = await notes.where('uid', '==', uid).get();
     } else {
       var data = await notes
-        .where("uid", "==", uid)
-        .where("category", "==", param)
-        .get();
+          .where('uid', '==', uid)
+          .where('category', '==', param)
+          .get();
     }
     const notesArray = [];
     if (data.empty) {
-      res.status(404).send({ message: "No note record found" });
+      res.status(404).send({message: 'No note record found'});
     } else {
       data.forEach((doc) => {
         const note = new Note(
-          doc.id,
-          doc.data().uid,
-          doc.data().category,
-          doc.data().title,
-          doc.data().body,
-          doc.data().created_at,
-          doc.data().updated_at,
-          doc.data().expires_at,
-          doc.data().priority,
-          doc.data().status
+            doc.id,
+            doc.data().uid,
+            doc.data().category,
+            doc.data().title,
+            doc.data().body,
+            doc.data().created_at,
+            doc.data().updated_at,
+            doc.data().expires_at,
+            doc.data().priority,
+            doc.data().status,
         );
         notesArray.push(note);
       });
@@ -64,10 +65,10 @@ const getAllNotes = async (req, res, next) => {
 const getNote = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const note = await firestore.collection("notes").doc(id);
-    const data = await note.where("uid", "==", uid).get();
+    const note = await firestore.collection('notes').doc(id);
+    const data = await note.where('uid', '==', uid).get();
     if (!data.exists) {
-      res.status(404).send({ message: "Note with the given ID not found" });
+      res.status(404).send({message: 'Note with the given ID not found'});
     } else {
       res.send(data.data());
     }
@@ -89,9 +90,9 @@ const updateNote = async (req, res, next) => {
       priority: body.priority,
       status: body.status,
     };
-    const note = await firestore.collection("notes").doc(id);
+    const note = await firestore.collection('notes').doc(id);
     await note.update(data);
-    res.send({ message: "Note record updated successfuly" });
+    res.send({message: 'Note record updated successfuly'});
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -100,8 +101,8 @@ const updateNote = async (req, res, next) => {
 const deleteNote = async (req, res, next) => {
   try {
     const id = req.params.id;
-    await firestore.collection("notes").doc(id).delete();
-    res.send({ message: "Record deleted successfuly" });
+    await firestore.collection('notes').doc(id).delete();
+    res.send({message: 'Record deleted successfuly'});
   } catch (error) {
     res.status(400).send(error.message);
   }

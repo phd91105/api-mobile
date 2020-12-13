@@ -1,15 +1,17 @@
+/* eslint-disable camelcase */
+/* eslint-disable require-jsdoc */
 class Note {
   constructor(
-    id,
-    uid,
-    category,
-    title,
-    body,
-    created_at,
-    updated_at,
-    expires_at,
-    priority,
-    status
+      id,
+      uid,
+      category,
+      title,
+      body,
+      created_at,
+      updated_at,
+      expires_at,
+      priority,
+      status,
   ) {
     this.id = id;
     this.uid = uid;
