@@ -55,18 +55,11 @@ app.post("/api/resetpass", async (req, res) => {
   }
 });
 /** ************ middleware ***************/
-app.use((req, res, next) => {
-  let currentuser = firebase.auth().currentUser;
-  try {
-    uid = currentuser.uid;
-    next();
-  } catch (e) {
-    res.status(401).send({ error: e.message });
-  }
-});
+// let currentuser = firebase.auth().currentUser;
 /** ********** firebase auth ***************/
 firebase.auth().languageCode = "vi";
 firebase.auth().onAuthStateChanged((user) => {
+  uid = user.uid;
   if (user) {
     app.use("/api", noteRoutes.routes);
     app.use("/api", categoryRoutes.routes);
