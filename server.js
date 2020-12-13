@@ -87,7 +87,7 @@ firebase.auth().onAuthStateChanged((user) => {
     });
     app.get('/api/getuserinfo', (req, res) => {
       body = {
-        displayname: user.displayName,
+        displayName: user.displayName,
         email: user.email,
         photoUrl: user.photoURL,
         emailVerified: user.emailVerified,
