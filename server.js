@@ -56,7 +56,7 @@ app.post("/api/resetpass", async (req, res) => {
 });
 /** ************ middleware ***************/
 app.use((req, res, next) => {
-  var currentuser = firebase.auth().currentUser;
+  let currentuser = firebase.auth().currentUser;
   try {
     uid = currentuser.uid;
     next();
