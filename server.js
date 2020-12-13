@@ -33,11 +33,10 @@ app.post("/api/signup", async (req, res) => {
 app.post("/api/signin", async (req, res) => {
   const { email, password } = req.body;
   try {
-    var userr = await userService.authenticate(email, password);
-    // currentuser = firebase.auth().currentUser;
+    let user = await userService.authenticate(email, password);
     res.status(200).json({
-      accessToken: userr.user.ya,
-      refreshToken: userr.user.refreshToken,
+      accessToken: user.user.ya,
+      refreshToken: user.user.refreshToken,
     });
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -57,8 +56,8 @@ app.post("/api/resetpass", async (req, res) => {
 });
 /** ************ middleware ***************/
 app.use((req, res, next) => {
+  var currentuser = firebase.auth().currentUser;
   try {
-    currentuser = firebase.auth().currentUser;
     uid = currentuser.uid;
     next();
   } catch (e) {
@@ -72,7 +71,7 @@ firebase.auth().onAuthStateChanged((user) => {
     app.use("/api", noteRoutes.routes);
     app.use("/api", categoryRoutes.routes);
     app.post("/api/updateprofile", (req, res) => {
-      currentuser
+      user
         .updateProfile({
           displayName: req.body.displayName,
           photoURL: req.body.photoURL,
