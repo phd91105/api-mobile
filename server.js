@@ -33,11 +33,11 @@ app.post("/api/signup", async (req, res) => {
 app.post("/api/signin", async (req, res) => {
   const { email, password } = req.body;
   try {
-    user = await userService.authenticate(email, password);
+    var userr = await userService.authenticate(email, password);
     // currentuser = firebase.auth().currentUser;
     res.status(200).json({
-      accessToken: user.user.ya,
-      refreshToken: user.user.refreshToken,
+      accessToken: userr.user.ya,
+      refreshToken: userr.user.refreshToken,
     });
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -88,11 +88,11 @@ firebase.auth().onAuthStateChanged((user) => {
     });
     app.get("/api/getuserinfo", (req, res) => {
       body = {
-        displayName: currentuser.displayName,
-        email: currentuser.email,
-        photoUrl: currentuser.photoURL,
-        emailVerified: currentuser.emailVerified,
-        uid: currentuser.uid,
+        displayName: user.displayName,
+        email: user.email,
+        photoUrl: user.photoURL,
+        emailVerified: user.emailVerified,
+        uid: user.uid,
       };
       res.send(body);
     });
