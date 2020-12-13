@@ -13,6 +13,7 @@ const addNote = async (req, res, next) => {
       created_at: Date.now(),
       updated_at: null,
       expires_at: body.expires_at,
+      priority : body.priority,
       status: body.status,
     };
     const note = await firestore.collection("notes").doc().set(data);
@@ -48,6 +49,7 @@ const getAllNotes = async (req, res, next) => {
           doc.data().created_at,
           doc.data().updated_at,
           doc.data().expires_at,
+          doc.data().priority,
           doc.data().status
         );
         notesArray.push(note);
@@ -84,6 +86,7 @@ const updateNote = async (req, res, next) => {
       body: body.body,
       updated_at: Date.now(),
       expires_at: body.expires_at,
+      priority: body.priority,
       status: body.status,
     };
     const note = await firestore.collection("notes").doc(id);

@@ -1,16 +1,16 @@
-POST https://api-mobile-app.herokuapp.com/api/signup
+POST http://localhost:8080/api/signup
 content-type: application/json
 
 { "email": "phd9911@gmail.com", "password": "123456" }
 ######################
-POST https://api-mobile-app.herokuapp.com/api/signin
+POST http://localhost:8080/api/signin
 content-type: application/json
 
 { "email": "phd9911@gmail.com", "password": "123456" }
 #######################
-POST https://api-mobile-app.herokuapp.com/api/resetpass
+POST http://localhost:8080/api/resetpass
 content-type: application/json
 
 { "email": "example@email.com" }
 #######################
-GET https://api-mobile-app.herokuapp.com/api/notes?category=home
+GET http://localhost:8080/api/notes

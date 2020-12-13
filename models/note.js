@@ -8,6 +8,7 @@ class Note {
     created_at,
     updated_at,
     expires_at,
+    priority,
     status
   ) {
     this.id = id;
@@ -18,6 +19,7 @@ class Note {
     this.created_at = created_at;
     this.updated_at = updated_at;
     this.expires_at = expires_at;
+    this.priority = priority;
     this.status = status;
   }
 }
