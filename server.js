@@ -87,11 +87,11 @@ firebase.auth().onAuthStateChanged((user) => {
     });
     app.get('/api/getuserinfo', (req, res) => {
       body = {
-        displayName: user.displayName,
-        email: user.email,
-        photoUrl: user.photoURL,
-        emailVerified: user.emailVerified,
-        uid: user.uid,
+        displayName: currentuser.displayName,
+        email: currentuser.email,
+        photoUrl: currentuser.photoURL,
+        emailVerified: currentuser.emailVerified,
+        uid: currentuser.uid,
       };
       res.send(body);
     });
