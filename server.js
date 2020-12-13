@@ -34,10 +34,10 @@ app.post("/api/signin", async (req, res) => {
   const { email, password } = req.body;
   try {
     user = await userService.authenticate(email, password);
-    currentuser = firebase.auth().currentUser;
+    // currentuser = firebase.auth().currentUser;
     res.status(200).json({
-      accessToken: currentuser.ya,
-      refreshToken: currentuser.refreshToken,
+      accessToken: user.user.ya,
+      refreshToken: user.user.refreshToken,
     });
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -58,7 +58,7 @@ app.post("/api/resetpass", async (req, res) => {
 /** ************ middleware ***************/
 app.use((req, res, next) => {
   try {
-    // currentuser = firebase.auth().currentUser;
+    currentuser = firebase.auth().currentUser;
     uid = currentuser.uid;
     next();
   } catch (e) {
