@@ -60,6 +60,7 @@ app.use(function (req, res, next) {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       accessToken = user.ya;
+      user = user;
       next();
     } else {
       res.send({ error: "login first!" });
