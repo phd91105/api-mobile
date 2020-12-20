@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const firebase = require("firebase");
-
+const jwt = require("jsonwebtoken");
 const categoryRoutes = require("./routes/category-routes");
 const noteRoutes = require("./routes/note-routes");
 const scheduleRoutes = require("./routes/schedule-routes");
@@ -54,14 +54,11 @@ app.post("/api/resetpass", async (req, res) => {
     res.status(401).json({ error: err.message });
   }
 });
-
-
 /** ************ middleware ***************/
 app.use(function (req, res, next) {
   firebase.auth().languageCode = "vi";
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-      uid = user.uid;
       accessToken = user.ya;
       next();
     } else {
@@ -78,6 +75,8 @@ app.use(function (req, res, next) {
   ) {
     var token = req.headers.authorization.split(" ")[1];
     if (token == accessToken) {
+      let data = jwt.decode(token);
+      uid = data.user_id;
       return next();
     } else {
       return res.status(403).send({ message: "Invalid Token" });
