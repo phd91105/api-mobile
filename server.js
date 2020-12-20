@@ -55,65 +55,70 @@ app.post("/api/resetpass", async (req, res) => {
   }
 });
 /** ************ middleware ***************/
-// let currentuser = firebase.auth().currentUser;
-/** ********** firebase auth ***************/
-firebase.auth().languageCode = "vi";
-firebase.auth().onAuthStateChanged((user) => {
-  uid = user.uid;
-  if (user) {
-    app.use("/api", noteRoutes.routes);
-    app.use("/api", categoryRoutes.routes);
-    app.post("/api/updateprofile", (req, res) => {
-      user
-        .updateProfile({
-          displayName: req.body.displayName,
-          photoURL: req.body.photoURL,
-        })
-        .then(() => {
-          // Update successful.
-          res.send({ message: "update profile successful", body: req.body });
-        })
-        .catch((error) => {
-          // An error happened.
-          res.send({ errror: error.message });
-        });
-    });
-    app.get("/api/getuserinfo", (req, res) => {
-      body = {
-        displayName: user.displayName,
-        email: user.email,
-        photoUrl: user.photoURL,
-        emailVerified: user.emailVerified,
-        uid: user.uid,
-      };
-      res.send(body);
-    });
-    app.post("/api/verifyemail", (req, res) => {
-      user
-        .sendEmailVerification()
-        .then(() => {
-          // Email sent.
-          res.send({ message: "verify email sent, check your inbox" });
-        })
-        .catch((error) => {
-          // An error happened.
-          res.send({ errror: error.message });
-        });
-    });
-    app.post("/api/changepass", (req, res) => {
-      user
-        .updatePassword(req.body.password)
-        .then(() => {
-          // Update successful.
-          res.send({ message: "password changed" });
-        })
-        .catch((error) => {
-          // An error happened.
-          res.send({ error: error.message });
-        });
-    });
-  }
+app.use(function (req, res, next) {
+  firebase.auth().languageCode = "vi";
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      uid = user.uid;
+      next();
+    } else {
+      res.send({ error: "login first!" });
+    }
+  });
 });
+/** ********** firebase auth ***************/
+app.use("/api", noteRoutes.routes);
+app.use("/api", categoryRoutes.routes);
+app.post("/api/updateprofile", (req, res) => {
+  user
+    .updateProfile({
+      displayName: req.body.displayName,
+      photoURL: req.body.photoURL,
+    })
+    .then(() => {
+      // Update successful.
+      res.send({ message: "update profile successful", body: req.body });
+    })
+    .catch((error) => {
+      // An error happened.
+      res.send({ error: error.message });
+    });
+});
+app.get("/api/getuserinfo", (req, res) => {
+  body = {
+    displayName: user.displayName,
+    email: user.email,
+    photoUrl: user.photoURL,
+    emailVerified: user.emailVerified,
+    uid: user.uid,
+  };
+  res.send(body);
+});
+app.post("/api/verifyemail", (req, res) => {
+  user
+    .sendEmailVerification()
+    .then(() => {
+      // Email sent.
+      res.send({ message: "verify email sent, check your inbox" });
+    })
+    .catch((error) => {
+      // An error happened.
+      res.send({ error: error.message });
+    });
+});
+app.post("/api/changepass", (req, res) => {
+  user
+    .updatePassword(req.body.password)
+    .then(() => {
+      // Update successful.
+      res.send({ message: "password changed" });
+    })
+    .catch((error) => {
+      // An error happened.
+      res.send({ error: error.message });
+    });
+});
+
 /** **************************************/
 app.set("port", process.env.PORT);
 app.listen(app.get("port"), () => {

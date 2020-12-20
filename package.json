@@ -22,8 +22,6 @@
     "request-promise": "^4.2.6"
   },
   "devDependencies": {
-    "eslint": "^7.15.0",
-    "eslint-config-google": "^0.14.0",
     "nodemon": "^2.0.6"
   }
 }
