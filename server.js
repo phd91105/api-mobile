@@ -61,6 +61,7 @@ app.use(function (req, res, next) {
     if (user) {
       accessToken = user.ya;
       user = user;
+      uid = user.uid;
       next();
     } else {
       res.send({ error: "login first!" });
