@@ -54,18 +54,38 @@ app.post("/api/resetpass", async (req, res) => {
     res.status(401).json({ error: err.message });
   }
 });
+
 /** ************ middleware ***************/
 app.use(function (req, res, next) {
   firebase.auth().languageCode = "vi";
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       uid = user.uid;
+      accesstoken = user.user.ya;
       next();
     } else {
-      res.send({ error: "login first!" });
+      res.status(403).send({ error: "Token Expired" });
     }
   });
 });
+
+app.use(function (req, res, next) {
+  if (
+    req.headers &&
+    req.headers.authorization &&
+    String(req.headers.authorization.split(" ")[0]).toLowerCase() === "bearer"
+  ) {
+    var token = req.headers.authorization.split(" ")[1];
+    if (token == accesstoken) {
+      return next();
+    } else {
+      return res.status(403).send({ message: "Invalid Token" });
+    }
+  } else {
+    return res.status(403).send({ message: "Unauthorized" });
+  }
+});
+
 /** ********** firebase auth ***************/
 app.use("/api", noteRoutes.routes);
 app.use("/api", categoryRoutes.routes);
