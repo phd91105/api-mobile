@@ -55,16 +55,17 @@ app.post("/api/resetpass", async (req, res) => {
   }
 });
 
+
 /** ************ middleware ***************/
 app.use(function (req, res, next) {
   firebase.auth().languageCode = "vi";
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       uid = user.uid;
-      accesstoken = user.user.ya;
+      accessToken = user.ya;
       next();
     } else {
-      res.status(403).send({ error: "Token Expired" });
+      res.send({ error: "login first!" });
     }
   });
 });
@@ -76,7 +77,7 @@ app.use(function (req, res, next) {
     String(req.headers.authorization.split(" ")[0]).toLowerCase() === "bearer"
   ) {
     var token = req.headers.authorization.split(" ")[1];
-    if (token == accesstoken) {
+    if (token == accessToken) {
       return next();
     } else {
       return res.status(403).send({ message: "Invalid Token" });
@@ -85,7 +86,6 @@ app.use(function (req, res, next) {
     return res.status(403).send({ message: "Unauthorized" });
   }
 });
-
 /** ********** firebase auth ***************/
 app.use("/api", noteRoutes.routes);
 app.use("/api", categoryRoutes.routes);
