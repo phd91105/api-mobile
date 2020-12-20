@@ -68,24 +68,24 @@ app.use(function (req, res, next) {
   });
 });
 
-app.use(function (req, res, next) {
-  if (
-    req.headers &&
-    req.headers.authorization &&
-    String(req.headers.authorization.split(" ")[0]).toLowerCase() === "bearer"
-  ) {
-    var token = req.headers.authorization.split(" ")[1];
-    if (token == accessToken) {
-      let data = jwt.decode(token);
-      uid = data.user_id;
-      return next();
-    } else {
-      return res.status(403).send({ message: "Invalid Token" });
-    }
-  } else {
-    return res.status(403).send({ message: "Unauthorized" });
-  }
-});
+// app.use(function (req, res, next) {
+//   if (
+//     req.headers &&
+//     req.headers.authorization &&
+//     String(req.headers.authorization.split(" ")[0]).toLowerCase() === "bearer"
+//   ) {
+//     var token = req.headers.authorization.split(" ")[1];
+//     if (token == accessToken) {
+//       let data = jwt.decode(token);
+//       uid = data.user_id;
+//       return next();
+//     } else {
+//       return res.status(403).send({ message: "Invalid Token" });
+//     }
+//   } else {
+//     return res.status(403).send({ message: "Unauthorized" });
+//   }
+// });
 /** ********** firebase auth ***************/
 app.use("/api", noteRoutes.routes);
 app.use("/api", categoryRoutes.routes);
