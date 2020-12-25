@@ -83,11 +83,9 @@ firebase.auth().onAuthStateChanged((user) => {
           photoURL: req.body.photoURL,
         })
         .then(() => {
-          // Update successful.
           res.send({ message: "update profile successful", body: req.body });
         })
         .catch((error) => {
-          // An error happened.
           res.send({ error: error.message });
         });
     });
@@ -95,11 +93,9 @@ firebase.auth().onAuthStateChanged((user) => {
       req["currentUser"]
         .sendEmailVerification()
         .then(() => {
-          // Email sent.
           res.send({ message: "verify email sent, check your inbox" });
         })
         .catch((error) => {
-          // An error happened.
           res.send({ error: error.message });
         });
     });
@@ -107,11 +103,9 @@ firebase.auth().onAuthStateChanged((user) => {
       req["currentUser"]
         .updatePassword(req.body.password)
         .then(() => {
-          // Update successful.
           res.send({ message: "password changed" });
         })
         .catch((error) => {
-          // An error happened.
           res.send({ error: error.message });
         });
     });
