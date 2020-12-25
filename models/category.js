@@ -1,4 +1,3 @@
-/* eslint-disable require-jsdoc */
 class Category {
   constructor(id, uid, cate_name, color) {
     this.id = id;
