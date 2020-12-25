@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
 app.post("/api/signup", async (req, res) => {
   const { email, password } = req.body;
   try {
-    let user = await userService.addUser(email, password);
+    const user = await userService.addUser(email, password);
     res.status(200).json(user);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -34,7 +34,7 @@ app.post("/api/signup", async (req, res) => {
 app.post("/api/signin", async (req, res) => {
   const { email, password } = req.body;
   try {
-    let user = await userService.authenticate(email, password);
+    const user = await userService.authenticate(email, password);
     res.status(200).json({
       accessToken: user.user.ya,
       refreshToken: user.user.refreshToken,
@@ -77,7 +77,7 @@ app.use("/api", categoryRoutes.routes);
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     app.post("/api/updateprofile", (req, res) => {
-      req["currentUser"]
+      user
         .updateProfile({
           displayName: req.body.displayName,
           photoURL: req.body.photoURL,
@@ -90,7 +90,7 @@ firebase.auth().onAuthStateChanged((user) => {
         });
     });
     app.post("/api/verifyemail", (req, res) => {
-      req["currentUser"]
+      user
         .sendEmailVerification()
         .then(() => {
           res.send({ message: "verify email sent, check your inbox" });
@@ -100,7 +100,7 @@ firebase.auth().onAuthStateChanged((user) => {
         });
     });
     app.post("/api/changepass", (req, res) => {
-      req["currentUser"]
+      user
         .updatePassword(req.body.password)
         .then(() => {
           res.send({ message: "password changed" });
