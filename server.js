@@ -59,8 +59,8 @@ app.post("/api/resetpass", async (req, res) => {
 app.use(middleware);
 firebase.auth().languageCode = "vi";
 async function middleware(req, res, next) {
-  if (req.headers?.authorization?.startsWith("Bearer ")) {
-    const idToken = req.headers.authorization.split("Bearer ")[1];
+  if (req.headers.authorization.split(" ")[0].toLowerCase() === "bearer") {
+    const idToken = req.headers.authorization.split(" ")[1];
     try {
       const decodedToken = await admin.auth().verifyIdToken(idToken);
       req["currentUser"] = decodedToken;
@@ -90,16 +90,6 @@ firebase.auth().onAuthStateChanged((user) => {
           // An error happened.
           res.send({ error: error.message });
         });
-    });
-    app.get("/api/getuserinfo", (req, res) => {
-      body = {
-        displayName: req["currentUser"].displayName,
-        email: req["currentUser"].email,
-        photoUrl: req["currentUser"].photoURL,
-        emailVerified: req["currentUser"].emailVerified,
-        uid: req["currentUser"].uid,
-      };
-      res.send(body);
     });
     app.post("/api/verifyemail", (req, res) => {
       req["currentUser"]
