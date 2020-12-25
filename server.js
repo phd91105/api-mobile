@@ -4,16 +4,15 @@ const cors = require("cors");
 const firebase = require("firebase");
 const categoryRoutes = require("./routes/category-routes");
 const noteRoutes = require("./routes/note-routes");
-const scheduleRoutes = require("./routes/schedule-routes");
 const userService = require("./models/user_service");
 const admin = require("firebase-admin");
-const config = require("./models/config");
 const serviceAccount = require("./api-node-c2241-firebase-adminsdk-4ukq8-c75d4c4d65.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://api-node-c2241-default-rtdb.firebaseio.com",
 });
+firebase.auth().languageCode = "vi";
 app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -22,8 +21,6 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send(`Server is listening at port ${app.get("port")}`);
 });
-/** **************************************/
-// app.use("/api", scheduleRoutes.routes);
 /** **************************************/
 app.post("/api/signup", async (req, res) => {
   const { email, password } = req.body;
@@ -60,10 +57,12 @@ app.post("/api/resetpass", async (req, res) => {
   }
 });
 /** ************ middleware ***************/
-app.use(middleware);
-firebase.auth().languageCode = "vi";
-async function middleware(req, res, next) {
-  if (req.headers.authorization.split(" ")[0].toLowerCase() === "bearer") {
+app.use(async (req, res, next) => {
+  if (
+    req.headers &&
+    req.headers.authorization &&
+    req.headers.authorization.split(" ")[0].toLowerCase() === "bearer"
+  ) {
     const idToken = req.headers.authorization.split(" ")[1];
     try {
       const decodedToken = await admin.auth().verifyIdToken(idToken);
@@ -72,9 +71,11 @@ async function middleware(req, res, next) {
     } catch (err) {
       res.status(401).json({ error: err.message });
     }
+  } else {
+    return res.status(403).send({ error: "Unauthorized" });
   }
   next();
-}
+});
 /** **************************************/
 app.use("/api", noteRoutes.routes);
 app.use("/api", categoryRoutes.routes);
