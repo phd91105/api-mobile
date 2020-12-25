@@ -7,7 +7,7 @@ const addCategory = async (req, res, next) => {
   try {
     const body = req.body;
     const data = {
-      uid: uid,
+      uid: req['userID'],
       categoryName: body.categoryName,
       color: color,
     };
@@ -23,7 +23,7 @@ const addCategory = async (req, res, next) => {
 const getAllCategories = async (req, res, next) => {
   try {
     const categories = await firestore.collection('categories');
-    var data = await categories.where('uid', '==', uid).get();
+    var data = await categories.where('uid', '==', req['userID']).get();
     const categoriesArray = [];
     if (data.empty) {
       res.status(404).send({message: 'No category record found'});
@@ -48,7 +48,7 @@ const getCategory = async (req, res, next) => {
   try {
     const id = req.params.id;
     const category = await firestore.collection('categories').doc(id);
-    const data = await category.where('uid', '==', uid).get();
+    const data = await category.where('uid', '==', req['userID']).get();
     if (!data.exists) {
       res.status(404).send({message: 'Category with the given ID not found'});
     } else {

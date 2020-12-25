@@ -7,7 +7,7 @@ const addNote = async (req, res, next) => {
   try {
     const body = req.body;
     const data = {
-      uid: uid,
+      uid: req['userID'],
       category: body.category,
       title: body.title,
       body: body.body,
@@ -29,10 +29,10 @@ const getAllNotes = async (req, res, next) => {
     const param = req.query.category;
     const notes = await firestore.collection(`notes`);
     if (param === undefined) {
-      var data = await notes.where('uid', '==', uid).get();
+      var data = await notes.where('uid', '==', req['userID']).get();
     } else {
       var data = await notes
-          .where('uid', '==', uid)
+          .where('uid', '==', req['userID'])
           .where('category', '==', param)
           .get();
     }
@@ -66,7 +66,7 @@ const getNote = async (req, res, next) => {
   try {
     const id = req.params.id;
     const note = await firestore.collection('notes').doc(id);
-    const data = await note.where('uid', '==', uid).get();
+    const data = await note.where('uid', '==', req['userID']).get();
     if (!data.exists) {
       res.status(404).send({message: 'Note with the given ID not found'});
     } else {
