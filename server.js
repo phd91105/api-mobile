@@ -8,8 +8,12 @@ const scheduleRoutes = require("./routes/schedule-routes");
 const userService = require("./models/user_service");
 const admin = require("firebase-admin");
 const config = require("./models/config");
+const serviceAccount = require("./api-node-c2241-firebase-adminsdk-4ukq8-c75d4c4d65.json");
 
-admin.initializeApp(config.firebaseConfig);
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://api-node-c2241-default-rtdb.firebaseio.com",
+});
 app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -63,7 +67,7 @@ async function middleware(req, res, next) {
     const idToken = req.headers.authorization.split(" ")[1];
     try {
       const decodedToken = await admin.auth().verifyIdToken(idToken);
-      req["currentUser"] = decodedToken;
+      // req["currentUser"] = decodedToken;
       req["userID"] = decodedToken.uid;
     } catch (err) {
       res.status(401).json({ error: err.message });
@@ -74,42 +78,32 @@ async function middleware(req, res, next) {
 /** **************************************/
 app.use("/api", noteRoutes.routes);
 app.use("/api", categoryRoutes.routes);
-firebase.auth().onAuthStateChanged((user) => {
-  if (user) {
-    app.post("/api/updateprofile", (req, res) => {
-      user
-        .updateProfile({
-          displayName: req.body.displayName,
-          photoURL: req.body.photoURL,
-        })
-        .then(() => {
-          res.send({ message: "update profile successful", body: req.body });
-        })
-        .catch((error) => {
-          res.send({ error: error.message });
-        });
+app.get("/api/userinfo", (req, res) => {
+  admin
+    .auth()
+    .getUser(req["userID"])
+    .then((userRecord) => {
+      res.status(200).json(userRecord);
+    })
+    .catch((err) => {
+      res.status(400).json({ error: err.message });
     });
-    app.post("/api/verifyemail", (req, res) => {
-      user
-        .sendEmailVerification()
-        .then(() => {
-          res.send({ message: "verify email sent, check your inbox" });
-        })
-        .catch((error) => {
-          res.send({ error: error.message });
-        });
+});
+app.post("/api/updateprofile", (req, res) => {
+  admin
+    .auth()
+    .updateUser(uid, {
+      email: req.body.email,
+      password: req.body.password,
+      displayName: req.body.displayName,
+      photoURL: req.body.photoURL,
+    })
+    .then((userRecord) => {
+      res.status(200).json(userRecord);
+    })
+    .catch((err) => {
+      res.status(400).json({ error: err.message });
     });
-    app.post("/api/changepass", (req, res) => {
-      user
-        .updatePassword(req.body.password)
-        .then(() => {
-          res.send({ message: "password changed" });
-        })
-        .catch((error) => {
-          res.send({ error: error.message });
-        });
-    });
-  }
 });
 /** **************************************/
 app.set("port", process.env.PORT);
