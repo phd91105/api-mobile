@@ -27,13 +27,13 @@ const getAllNotes = async (req, res, next) => {
   try {
     const category = req.query.category;
     const notes = await firestore.collection(`notes`);
-    if (category === undefined) {
-      var data = await notes.where("uid", "==", req["userID"]).get();
-    } else {
-      var data = await notes
+    if (category) {
+    var data = await notes
         .where("uid", "==", req["userID"])
         .where("category", "==", category)
         .get();
+    } else {
+      var data = await notes.where("uid", "==", req["userID"]).get();
     }
     const notesArray = [];
     if (data.empty) {
