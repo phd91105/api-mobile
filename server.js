@@ -4,7 +4,7 @@ const cors = require("cors");
 const firebase = require("firebase");
 const categoryRoutes = require("./routes/category-routes");
 const noteRoutes = require("./routes/note-routes");
-const userService = require("./models/user_service");
+const userService = require("./models/userService");
 const admin = require("firebase-admin");
 const serviceAccount = require("./api-node-c2241-firebase-adminsdk-4ukq8-c75d4c4d65.json");
 
