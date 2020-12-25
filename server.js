@@ -77,7 +77,7 @@ app.use("/api", categoryRoutes.routes);
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     app.post("/api/updateprofile", (req, res) => {
-      user
+      req["currentUser"]
         .updateProfile({
           displayName: req.body.displayName,
           photoURL: req.body.photoURL,
@@ -102,7 +102,7 @@ firebase.auth().onAuthStateChanged((user) => {
       res.send(body);
     });
     app.post("/api/verifyemail", (req, res) => {
-      user
+      req["currentUser"]
         .sendEmailVerification()
         .then(() => {
           // Email sent.
@@ -114,7 +114,7 @@ firebase.auth().onAuthStateChanged((user) => {
         });
     });
     app.post("/api/changepass", (req, res) => {
-      user
+      req["currentUser"]
         .updatePassword(req.body.password)
         .then(() => {
           // Update successful.
@@ -125,8 +125,6 @@ firebase.auth().onAuthStateChanged((user) => {
           res.send({ error: error.message });
         });
     });
-  } else {
-    res.send({ error: "please login" });
   }
 });
 /** **************************************/
