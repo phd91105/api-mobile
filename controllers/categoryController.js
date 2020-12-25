@@ -9,7 +9,7 @@ const addCategory = async (req, res, next) => {
     const data = {
       uid: req['userID'],
       cate_name: body.cate_name,
-      color: color,
+      color: body.color,
     };
     const category = await firestore.collection('categories').doc().set(data);
     res
