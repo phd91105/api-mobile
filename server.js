@@ -36,10 +36,13 @@ app.post("/api/signin", async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await userService.authenticate(email, password);
-    res.status(200).json({
-      accessToken: user.user.ya,
-      refreshToken: user.user.refreshToken,
-    });
+    firebase
+      .auth()
+      .currentUser.getIdToken(true)
+      .then(function (idToken) {
+        res.status(200).json({ accessToken: idToken, tokenType: "bearer" });
+      })
+      .catch(function (err) {});
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
