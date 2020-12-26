@@ -53,7 +53,7 @@ app.post("/api/resetpass", async (req, res) => {
   try {
     await userService.resetPass(email);
     res.status(200).json({
-      message: "Reset password link has been sent! Please check your inbox",
+      message: "An email has been sent. Please check your inbox",
     });
   } catch (err) {
     res.status(401).json({ error: err.message });
