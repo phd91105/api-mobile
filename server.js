@@ -35,14 +35,14 @@ app.post("/api/signup", async (req, res) => {
 app.post("/api/signin", async (req, res) => {
   const { email, password } = req.body;
   try {
-    await userService.authenticate(email, password);
-    firebase
-      .auth()
-      .currentUser.getIdToken(true)
-      .then(function (idToken) {
-        res.status(200).json({ accessToken: idToken, tokenType: "bearer" });
-      })
-      .catch(function () {});
+    const user = await userService.authenticate(email, password);
+    res
+      .status(200)
+      .json({
+        accessToken: user.user.ya,
+        refreshToken: user.user.refreshToken,
+        type: "Bearer",
+      });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -69,7 +69,7 @@ app.use(async (req, res, next) => {
     const idToken = req.headers.authorization.split(" ")[1];
     try {
       const decodedToken = await admin.auth().verifyIdToken(idToken);
-      // req["currentUser"] = decodedToken;
+      req["currentUser"] = decodedToken;
       req["userID"] = decodedToken.uid;
     } catch (err) {
       res.status(401).json({ error: err.message });
@@ -79,6 +79,7 @@ app.use(async (req, res, next) => {
   }
   next();
 });
+
 /** **************************************/
 app.use("/api", noteRoutes.routes);
 app.use("/api", categoryRoutes.routes);
