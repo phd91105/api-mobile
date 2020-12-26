@@ -77,7 +77,6 @@ app.use(async (req, res, next) => {
   }
   next();
 });
-
 /** **************************************/
 app.use("/api", noteRoutes.routes);
 app.use("/api", categoryRoutes.routes);
