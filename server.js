@@ -96,7 +96,7 @@ app.get("/api/userinfo", (req, res) => {
 app.post("/api/updateprofile", (req, res) => {
   admin
     .auth()
-    .updateUser(uid, {
+    .updateUser(req["userID"], {
       email: req.body.email,
       password: req.body.password,
       displayName: req.body.displayName,
