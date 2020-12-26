@@ -36,13 +36,11 @@ app.post("/api/signin", async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await userService.authenticate(email, password);
-    res
-      .status(200)
-      .json({
-        accessToken: user.user.ya,
-        refreshToken: user.user.refreshToken,
-        type: "Bearer",
-      });
+    res.status(200).json({
+      accessToken: user.user.ya,
+      refreshToken: user.user.refreshToken,
+      type: "Bearer",
+    });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -108,6 +106,14 @@ app.post("/api/updateprofile", (req, res) => {
     })
     .catch((err) => {
       res.status(400).json({ error: err.message });
+    });
+});
+app.post("/api/signout", (req, res) => {
+  admin
+    .auth()
+    .revokeRefreshTokens(req["userID"])
+    .then(() => {
+      res.send({ message: "Token revoked" });
     });
 });
 /** **************************************/
