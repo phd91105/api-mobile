@@ -2,7 +2,7 @@ const firebase = require("../models/db");
 const Category = require("../models/category");
 const firestore = firebase.firestore();
 
-const addCategory = async (req, res, next) => {
+const addCategory = async (req, res) => {
   try {
     const body = req.body;
     const data = {
@@ -19,7 +19,7 @@ const addCategory = async (req, res, next) => {
   }
 };
 
-const getAllCategories = async (req, res, next) => {
+const getAllCategories = async (req, res) => {
   try {
     const categories = await firestore.collection("categories");
     var data = await categories.where("uid", "==", req["userID"]).get();
@@ -43,7 +43,7 @@ const getAllCategories = async (req, res, next) => {
   }
 };
 
-const getCategory = async (req, res, next) => {
+const getCategory = async (req, res) => {
   try {
     const id = req.params.id;
     const category = await firestore.collection("categories").doc(id);
@@ -58,7 +58,7 @@ const getCategory = async (req, res, next) => {
   }
 };
 
-const updateCategory = async (req, res, next) => {
+const updateCategory = async (req, res) => {
   try {
     const id = req.params.id;
     const body = req.body;
@@ -74,7 +74,7 @@ const updateCategory = async (req, res, next) => {
   }
 };
 
-const deleteCategory = async (req, res, next) => {
+const deleteCategory = async (req, res) => {
   try {
     const id = req.params.id;
     await firestore.collection("categories").doc(id).delete();

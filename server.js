@@ -13,7 +13,7 @@ admin.initializeApp({
   databaseURL: "https://api-node-c2241-default-rtdb.firebaseio.com",
 });
 firebase.auth().languageCode = "vi";
-app = express();
+const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
@@ -35,14 +35,14 @@ app.post("/api/signup", async (req, res) => {
 app.post("/api/signin", async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await userService.authenticate(email, password);
+    await userService.authenticate(email, password);
     firebase
       .auth()
       .currentUser.getIdToken(true)
       .then(function (idToken) {
         res.status(200).json({ accessToken: idToken, tokenType: "bearer" });
       })
-      .catch(function (err) {});
+      .catch(function () {});
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

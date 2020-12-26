@@ -20,6 +20,9 @@
     "firebase-admin": "^5.13.1"
   },
   "devDependencies": {
+    "eslint": "^7.16.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-prettier": "^3.3.0",
     "nodemon": "^2.0.6"
   }
 }

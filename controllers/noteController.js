@@ -2,7 +2,7 @@ const firebase = require("../models/db");
 const Note = require("../models/note");
 const firestore = firebase.firestore();
 
-const addNote = async (req, res, next) => {
+const addNote = async (req, res) => {
   try {
     const body = req.body;
     const data = {
@@ -23,7 +23,7 @@ const addNote = async (req, res, next) => {
   }
 };
 
-const getAllNotes = async (req, res, next) => {
+const getAllNotes = async (req, res) => {
   try {
     const category = req.query.category;
     const notes = await firestore.collection(`notes`);
@@ -33,7 +33,7 @@ const getAllNotes = async (req, res, next) => {
         .where("category", "==", category)
         .get();
     } else {
-      var data = await notes.where("uid", "==", req["userID"]).get();
+      data = await notes.where("uid", "==", req["userID"]).get();
     }
     const notesArray = [];
     if (data.empty) {
@@ -61,7 +61,7 @@ const getAllNotes = async (req, res, next) => {
   }
 };
 
-const getNote = async (req, res, next) => {
+const getNote = async (req, res) => {
   try {
     const id = req.params.id;
     const note = await firestore.collection("notes").doc(id);
@@ -76,7 +76,7 @@ const getNote = async (req, res, next) => {
   }
 };
 
-const updateNote = async (req, res, next) => {
+const updateNote = async (req, res) => {
   try {
     const id = req.params.id;
     const body = req.body;
@@ -97,7 +97,7 @@ const updateNote = async (req, res, next) => {
   }
 };
 
-const deleteNote = async (req, res, next) => {
+const deleteNote = async (req, res) => {
   try {
     const id = req.params.id;
     await firestore.collection("notes").doc(id).delete();
