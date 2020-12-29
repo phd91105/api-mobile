@@ -17,7 +17,7 @@ exports.signIn = async (req, res) => {
     res.status(200).json({
       accessToken: user.user.ya,
       refreshToken: user.user.refreshToken,
-      type: "Bearer",
+      type: "bearer token",
     });
   } catch (err) {
     res.status(400).json({ error: err.message });
