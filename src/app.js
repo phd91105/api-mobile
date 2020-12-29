@@ -12,7 +12,7 @@ class App {
   constructor() {
     this.app = express();
     this.config();
-    this.mainApp();
+    this.main();
   }
   config() {
     this.app.use(bodyParser.urlencoded({ extended: false }));
@@ -21,7 +21,7 @@ class App {
     this.app.use(cors());
     this.port = process.env.PORT;
   }
-  mainApp() {
+  main() {
     this.app.use(statusRoutes.routes);
     this.app.use("/api", authRoutes.routes);
     this.app.use(verifyToken);
