@@ -2,6 +2,17 @@ const firebase = require("../models/db");
 const Note = require("../models/note");
 const firestore = firebase.firestore();
 
+function timeConverter(UNIX_timestamp) {
+  let a = new Date(UNIX_timestamp);
+  let date = a.getDate(),
+    month = a.getMonth() + 1,
+    year = a.getFullYear(),
+    hour = a.getHours(),
+    min = a.getMinutes(),
+    time = `${hour}:${min} ${date}/${month}/${year}`;
+  return time;
+}
+
 const addNote = async (req, res) => {
   try {
     const body = req.body;
@@ -28,7 +39,7 @@ const getAllNotes = async (req, res) => {
     const category = req.query.category;
     const notes = await firestore.collection(`notes`);
     if (category) {
-    var data = await notes
+      var data = await notes
         .where("uid", "==", req["userID"])
         .where("category", "==", category)
         .get();
@@ -46,9 +57,9 @@ const getAllNotes = async (req, res) => {
           doc.data().category,
           doc.data().title,
           doc.data().body,
-          doc.data().created_at,
-          doc.data().updated_at,
-          doc.data().expires_at,
+          timeConverter(doc.data().created_at),
+          timeConverter(doc.data().updated_at),
+          timeConverter(doc.data().expires_at),
           doc.data().priority,
           doc.data().status
         );
