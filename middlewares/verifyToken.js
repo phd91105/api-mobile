@@ -8,7 +8,11 @@ admin.initializeApp({
 });
 
 module.exports = async (req, res, next) => {
-  if (req.headers?.authorization?.split(" ")[0].toLowerCase() === "bearer") {
+  if (
+    req.headers &&
+    req.headers.authorization &&
+    req.headers.authorization.split(" ")[0].toLowerCase() === "bearer"
+  ) {
     let idToken = req.headers.authorization.split(" ")[1];
     try {
       let decodedToken = await admin.auth().verifyIdToken(idToken);
