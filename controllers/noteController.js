@@ -75,8 +75,7 @@ const getAllNotes = async (req, res) => {
 const getNote = async (req, res) => {
   try {
     const id = req.params.id;
-    const note = await firestore.collection("notes").doc(id);
-    const data = await note.where("uid", "==", req["userID"]).get();
+    const data = await firestore.collection("notes").doc(id).get();
     if (!data.exists) {
       res.status(404).send({ message: "Note with the given ID not found" });
     } else {
