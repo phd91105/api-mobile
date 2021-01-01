@@ -24,7 +24,7 @@ class App {
   }
   main() {
     this.app.get("/", (req, res) => {
-      res.send("Server is running");
+      res.send(`Server is running at port ${this.port}`);
     });
     this.app.use("/api", authRoutes.routes);
     this.app.use(verifyToken);
