@@ -28,7 +28,9 @@ const addNote = async (req, res) => {
       status: body.status,
     };
     const note = await firestore.collection("notes").doc().set(data);
-    res.status(201).send({ message: "create note successful!", data: note });
+    res
+      .status(201)
+      .send({ result: "ok", message: "create note successful!", data: note });
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -47,26 +49,23 @@ const getAllNotes = async (req, res) => {
       data = await notes.where("uid", "==", req["userID"]).get();
     }
     const notesArray = [];
-    if (data.empty) {
-      res.status(404).send({ message: "No note record found" });
-    } else {
-      data.forEach((doc) => {
-        const note = new Note(
-          doc.id,
-          doc.data().uid,
-          doc.data().category,
-          doc.data().title,
-          doc.data().body,
-          timeConverter(doc.data().created_at),
-          timeConverter(doc.data().updated_at),
-          timeConverter(doc.data().expires_at),
-          doc.data().priority,
-          doc.data().status
-        );
-        notesArray.push(note);
-      });
-      res.send(notesArray);
-    }
+    data.forEach((doc) => {
+      const note = new Note(
+        doc.id,
+        doc.data().uid,
+        doc.data().category,
+        doc.data().title,
+        doc.data().body,
+        timeConverter(doc.data().created_at),
+        timeConverter(doc.data().updated_at),
+        timeConverter(doc.data().expires_at),
+        doc.data().priority,
+        doc.data().status
+      );
+      notesArray.push(note);
+    });
+    res.send({ status: "ok", data: notesArray });
+    // }
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -79,7 +78,7 @@ const getNote = async (req, res) => {
     if (!data.exists) {
       res.status(404).send({ message: "Note with the given ID not found" });
     } else {
-      res.send(data.data());
+      res.send({ status: "ok", data: data.data() });
     }
   } catch (error) {
     res.status(400).send(error.message);

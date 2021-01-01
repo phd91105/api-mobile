@@ -11,9 +11,11 @@ const addCategory = async (req, res) => {
       color: body.color,
     };
     const category = await firestore.collection("categories").doc().set(data);
-    res
-      .status(201)
-      .send({ message: "create category successful!", data: category });
+    res.status(201).send({
+      status: "ok",
+      message: "create category successful!",
+      data: category,
+    });
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -36,7 +38,7 @@ const getAllCategories = async (req, res) => {
         );
         categoriesArray.push(category);
       });
-      res.send(categoriesArray);
+      res.send({ status: "ok", data: categoriesArray });
     }
   } catch (error) {
     res.status(400).send(error.message);
@@ -46,12 +48,11 @@ const getAllCategories = async (req, res) => {
 const getCategory = async (req, res) => {
   try {
     const id = req.params.id;
-    const category = await firestore.collection("categories").doc(id);
-    const data = await category.where("uid", "==", req["userID"]).get();
+    const data = await firestore.collection("categories").doc(id);
     if (!data.exists) {
       res.status(404).send({ message: "Category with the given ID not found" });
     } else {
-      res.send(data.data());
+      res.send({ status: "ok", data: data.data() });
     }
   } catch (error) {
     res.status(400).send(error.message);
