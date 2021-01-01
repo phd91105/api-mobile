@@ -23,9 +23,12 @@ class App {
     this.port = process.env.PORT;
   }
   main() {
-    this.app.use(statusRoutes.routes);
+    this.app.get("/", (req, res) => {
+      res.send("Server is running");
+    });
     this.app.use("/api", authRoutes.routes);
     this.app.use(verifyToken);
+    this.app.use(statusRoutes.routes);
     this.app.use("/api", noteRoutes.routes);
     this.app.use("/api", statusRoutes.routes);
     this.app.use("/api", priorityRoutes.routes);
