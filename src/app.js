@@ -7,6 +7,7 @@ const verifyToken = require("../middlewares/verifyToken");
 const authRoutes = require("../routes/auth-routes");
 const profileRoutes = require("../routes/profile-routes");
 const statusRoutes = require("../routes/status-routes");
+const priorityRoutes = require("../routes/priority-routes");
 
 class App {
   constructor() {
@@ -26,6 +27,8 @@ class App {
     this.app.use("/api", authRoutes.routes);
     this.app.use(verifyToken);
     this.app.use("/api", noteRoutes.routes);
+    this.app.use("/api", statusRoutes.routes);
+    this.app.use("/api", priorityRoutes.routes);
     this.app.use("/api", categoryRoutes.routes);
     this.app.use("/api", profileRoutes.routes);
   }
