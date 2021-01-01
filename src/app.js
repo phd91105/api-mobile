@@ -28,7 +28,6 @@ class App {
     });
     this.app.use("/api", authRoutes.routes);
     this.app.use(verifyToken);
-    this.app.use(statusRoutes.routes);
     this.app.use("/api", noteRoutes.routes);
     this.app.use("/api", statusRoutes.routes);
     this.app.use("/api", priorityRoutes.routes);
