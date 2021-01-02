@@ -29,7 +29,7 @@ module.exports = async (req, res, next) => {
       req["userID"] = decodedToken.uid;
       next();
     } catch (err) {
-      console.log(err);
+      res.status(400).send(JSON.parse(err.response.body));
     }
   } else {
     return res.status(403).send({ error: "Unauthorized" });
