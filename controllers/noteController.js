@@ -38,7 +38,7 @@ const addNote = async (req, res) => {
 
 const getAllNotes = async (req, res) => {
   try {
-    var test = [];
+    var sts = [];
     const category = req.query.category;
     const notes = await firestore.collection(`notes`);
     if (category) {
@@ -66,9 +66,9 @@ const getAllNotes = async (req, res) => {
       notesArray.push(note);
     });
     for (var i in notesArray) {
-      test.push(notesArray[i].status);
+      sts.push(notesArray[i].status);
     }
-    var result = test.reduce(function (p, c) {
+    var result = sts.reduce(function (p, c) {
       if (c in p) {
         p[c]++;
       } else {
