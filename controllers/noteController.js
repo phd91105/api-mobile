@@ -7,7 +7,7 @@ function timeConverter(UNIX_timestamp) {
   let date = a.getDate(),
     month = a.getMonth() + 1,
     year = a.getFullYear(),
-    hour = a.getHours(),
+    hour = a.getHours() + 7,
     min = a.getMinutes(),
     time = `${hour}:${min} ${date}/${month}/${year}`;
   return time;
