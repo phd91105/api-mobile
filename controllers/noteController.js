@@ -58,7 +58,7 @@ const getAllNotes = async (req, res) => {
         doc.data().body,
         timeConverter(doc.data().created_at),
         timeConverter(doc.data().updated_at),
-        timeConverter(doc.data().expires_at),
+        doc.data().expires_at,
         doc.data().priority,
         doc.data().status
       );
