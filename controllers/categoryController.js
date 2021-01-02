@@ -8,7 +8,6 @@ const addCategory = async (req, res) => {
     const data = {
       uid: req["userID"],
       cate_name: body.cate_name,
-      color: body.color,
     };
     const category = await firestore.collection("categories").doc().set(data);
     res.status(201).send({
@@ -33,8 +32,7 @@ const getAllCategories = async (req, res) => {
         const category = new Category(
           doc.id,
           doc.data().uid,
-          doc.data().cate_name,
-          doc.data().color
+          doc.data().cate_name
         );
         categoriesArray.push(category);
       });
@@ -65,7 +63,6 @@ const updateCategory = async (req, res) => {
     const body = req.body;
     const data = {
       cate_name: body.cate_name,
-      color: body.color,
     };
     const category = await firestore.collection("categories").doc(id);
     await category.update(data);

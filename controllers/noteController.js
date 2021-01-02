@@ -38,6 +38,7 @@ const addNote = async (req, res) => {
 
 const getAllNotes = async (req, res) => {
   try {
+    var test = [];
     const category = req.query.category;
     const notes = await firestore.collection(`notes`);
     if (category) {
@@ -64,8 +65,23 @@ const getAllNotes = async (req, res) => {
       );
       notesArray.push(note);
     });
-    res.send({ status: "ok", data: notesArray });
-    // }
+    for (var i in notesArray) {
+      test.push(notesArray[i].status);
+    }
+    var result = test.reduce(function (p, c) {
+      if (c in p) {
+        p[c]++;
+      } else {
+        p[c] = 1;
+      }
+      return p;
+    }, {});
+    res.send({
+      status: "ok",
+      count: notesArray.length,
+      status_count: result,
+      data: notesArray,
+    });
   } catch (error) {
     res.status(400).send(error.message);
   }
