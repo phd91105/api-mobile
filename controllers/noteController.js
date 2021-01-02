@@ -78,7 +78,7 @@ const getAllNotes = async (req, res) => {
     }, {});
     res.send({
       status: "ok",
-      count: notesArray.length,
+      note_count: notesArray.length,
       status_count: result,
       data: notesArray,
     });
