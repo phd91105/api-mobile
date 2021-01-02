@@ -94,7 +94,7 @@ const getNote = async (req, res) => {
     if (!data.exists) {
       res.status(404).send({ message: "Note with the given ID not found" });
     } else {
-      res.send({ status: "ok", data: data.data() });
+      res.send({ id: id, data: data.data() });
     }
   } catch (error) {
     res.status(400).send(error.message);
