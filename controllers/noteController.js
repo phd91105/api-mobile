@@ -40,7 +40,7 @@ const getAllNotes = async (req, res) => {
   try {
     var sts = [];
     const category = req.query.category;
-    const notes = await firestore.collection(`notes`);
+    const notes = await firestore.collection("notes");
     if (category) {
       var data = await notes
         .where("uid", "==", req["userID"])
@@ -81,6 +81,46 @@ const getAllNotes = async (req, res) => {
       note_count: notesArray.length,
       status_count: result,
       data: notesArray,
+    });
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+const getCount = async (req, res) => {
+  try {
+    var sts = [];
+    const notes = await firestore.collection("notes");
+    var data = await notes.where("uid", "==", req["userID"]).get();
+    const notesArray = [];
+    data.forEach((doc) => {
+      const note = new Note(
+        doc.id,
+        doc.data().uid,
+        doc.data().category,
+        doc.data().title,
+        doc.data().body,
+        doc.data().created_at,
+        doc.data().updated_at,
+        doc.data().expires_at,
+        doc.data().priority,
+        doc.data().status
+      );
+      notesArray.push(note);
+    });
+    for (var i in notesArray) {
+      sts.push(notesArray[i].status);
+    }
+    var result = sts.reduce(function (p, c) {
+      if (c in p) {
+        p[c]++;
+      } else {
+        p[c] = 1;
+      }
+      return p;
+    }, {});
+    res.send({
+      note_count: notesArray.length,
+      status_count: result,
     });
   } catch (error) {
     res.status(400).send(error.message);
@@ -130,6 +170,7 @@ module.exports = {
   addNote,
   getAllNotes,
   getNote,
+  getCount,
   updateNote,
   deleteNote,
 };
