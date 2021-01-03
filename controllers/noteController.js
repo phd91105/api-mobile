@@ -98,7 +98,7 @@ const getNote = async (req, res) => {
     } else {
       arr.push(data.data());
       arr[0].id = id;
-      res.send({ status: "ok", data: arr });
+      res.send({ status: "ok", data: arr[0] });
     }
   } catch (error) {
     res.status(400).send(error.message);
