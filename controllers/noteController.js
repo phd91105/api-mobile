@@ -109,17 +109,8 @@ const updateNote = async (req, res) => {
   try {
     const id = req.params.id;
     const body = req.body;
-    const data = {
-      category: body.category,
-      title: body.title,
-      body: body.body,
-      updated_at: timeConverter(Date.now()),
-      expires_at: body.expires_at,
-      priority: body.priority,
-      status: body.status,
-    };
     const note = await firestore.collection("notes").doc(id);
-    await note.update(data);
+    await note.update(body);
     res.send({ message: "Note record updated successfuly" });
   } catch (error) {
     res.status(400).send(error.message);
