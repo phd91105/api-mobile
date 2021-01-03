@@ -43,11 +43,8 @@ const updatePriority = async (req, res) => {
   try {
     const id = req.params.id;
     const body = req.body;
-    const data = {
-      priority_name: body.priority_name,
-    };
-    const priority = await firestore.collection("priority").doc(id);
-    await priority.update(data);
+      const priority = await firestore.collection("priority").doc(id).get();
+    await priority.update(body);
     res.send({ message: "Priority record updated successfuly" });
   } catch (error) {
     res.status(400).send(error.message);

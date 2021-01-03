@@ -46,7 +46,7 @@ const getAllCategories = async (req, res) => {
 const getCategory = async (req, res) => {
   try {
     const id = req.params.id;
-    const data = await firestore.collection("categories").doc(id);
+    const data = await firestore.collection("categories").doc(id).get();
     if (!data.exists) {
       res.status(404).send({ message: "Category with the given ID not found" });
     } else {
@@ -61,11 +61,8 @@ const updateCategory = async (req, res) => {
   try {
     const id = req.params.id;
     const body = req.body;
-    const data = {
-      cate_name: body.cate_name,
-    };
     const category = await firestore.collection("categories").doc(id);
-    await category.update(data);
+    await category.update(body);
     res.send({ message: "Category record updated successfuly" });
   } catch (error) {
     res.status(400).send(error.message);
