@@ -30,7 +30,7 @@ const addNote = async (req, res) => {
     const note = await firestore.collection("notes").doc().set(data);
     res
       .status(201)
-      .send({ result: "ok", message: "create note successful!", data: note });
+      .send({ status: "ok", message: "create note successful!", data: note });
   } catch (error) {
     res.status(400).send(error.message);
   }
