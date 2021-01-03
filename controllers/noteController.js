@@ -106,10 +106,7 @@ const getCount = async (req, res) => {
       return p;
     }, {});
     arr.push(result);
-    res.send({
-      note_count: notesArray.length,
-      status_count: arr,
-    });
+    res.send(arr);
   } catch (error) {
     res.status(400).send(error.message);
   }
