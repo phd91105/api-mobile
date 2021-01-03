@@ -75,7 +75,6 @@ const getAllNotes = async (req, res) => {
 const getCount = async (req, res) => {
   try {
     var sts = [];
-    var arr = [];
     const notes = await firestore.collection("notes");
     var data = await notes.where("uid", "==", req["userID"]).get();
     const notesArray = [];
@@ -105,8 +104,7 @@ const getCount = async (req, res) => {
       }
       return p;
     }, {});
-    arr.push(result);
-    res.send(arr);
+    res.send(result);
   } catch (error) {
     res.status(400).send(error.message);
   }
