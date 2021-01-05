@@ -9,10 +9,15 @@ function timeConverter(UNIX_timestamp) {
     year = a.getFullYear(),
     hour = a.getHours() + 7,
     min = a.getMinutes(),
-    time = `${hour}:${min} ${date}/${month}/${year}`;
+    time = `${addZero(hour)}:${addZero(min)} ${addZero(date)}/${addZero(month)}/${year}`;
   return time;
 }
-
+function addZero(i) {
+  if (i < 10) {
+    i = "0" + i;
+  }
+  return i;
+}
 const addNote = async (req, res) => {
   try {
     const body = req.body;
