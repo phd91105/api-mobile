@@ -6,7 +6,7 @@ class Note {
     title,
     body,
     created_at,
-    updated_at,
+    update_at,
     expires_at,
     priority,
     status
@@ -17,7 +17,7 @@ class Note {
     this.title = title;
     this.body = body;
     this.created_at = created_at;
-    this.updated_at = updated_at;
+    this.update_at = update_at;
     this.expires_at = expires_at;
     this.priority = priority;
     this.status = status;

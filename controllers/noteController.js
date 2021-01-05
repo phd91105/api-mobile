@@ -27,7 +27,7 @@ const addNote = async (req, res) => {
       title: body.title,
       body: body.body,
       created_at: timeConverter(Date.now()),
-      updated_at: null,
+      update_at: null,
       expires_at: body.expires_at,
       priority: body.priority,
       status: body.status,
@@ -62,7 +62,7 @@ const getAllNotes = async (req, res) => {
         doc.data().title,
         doc.data().body,
         doc.data().created_at,
-        doc.data().updated_at,
+        doc.data().update_at,
         doc.data().expires_at,
         doc.data().priority,
         doc.data().status
@@ -91,7 +91,7 @@ const getCount = async (req, res) => {
         doc.data().title,
         doc.data().body,
         doc.data().created_at,
-        doc.data().updated_at,
+        doc.data().update_at,
         doc.data().expires_at,
         doc.data().priority,
         doc.data().status
