@@ -4,7 +4,7 @@ const {
   getAllStatus,
   updateStatus,
   deleteStatus,
-} = require("../controllers/statusController");
+} = require("../controllers/status.controller");
 
 const router = new express.Router();
 

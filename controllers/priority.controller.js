@@ -1,4 +1,4 @@
-const firebase = require("../models/db");
+const firebase = require("../config/db");
 const Priority = require("../models/priority");
 const firestore = firebase.firestore();
 

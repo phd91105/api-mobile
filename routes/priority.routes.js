@@ -4,7 +4,7 @@ const {
   getAllPriority,
   updatePriority,
   deletePriority,
-} = require("../controllers/priorityController");
+} = require("../controllers/priority.controller");
 
 const router = new express.Router();
 

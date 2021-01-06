@@ -1,7 +1,6 @@
 require("firebase/app");
-require("firebase/auth");
-require("../../models/config");
-const db = require("../../models/db");
+require("../../config/config");
+const db = require("../../config/db");
 
 exports.addUser = (email, password) =>
   db.auth().createUserWithEmailAndPassword(email, password);

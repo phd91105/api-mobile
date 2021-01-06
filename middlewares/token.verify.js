@@ -1,5 +1,4 @@
-require("firebase/auth");
-require("../models/config");
+require("../config/config");
 var rp = require("request-promise");
 const admin = require("firebase-admin");
 const serviceAccount = require("./serviceAccount.json");

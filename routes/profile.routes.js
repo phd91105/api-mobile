@@ -4,7 +4,7 @@ const {
   getUserInfo,
   updateProfile,
   signOut,
-} = require("../controllers/authController/userController");
+} = require("../controllers/auth-controller/user.controller");
 
 router.get("/userinfo", getUserInfo);
 router.post("/updateprofile", updateProfile);
