@@ -1,11 +1,11 @@
-require("../config/config");
+// require("../config/config");
 // var rp = require("request-promise");
-const admin = require("firebase-admin");
-const serviceAccount = require("./serviceAccount.json");
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://api-node-c2241-default-rtdb.firebaseio.com",
-});
+// const admin = require("firebase-admin");
+// const serviceAccount = require("./serviceAccount.json");
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   databaseURL: "https://api-node-c2241-default-rtdb.firebaseio.com",
+// });
 
 // module.exports = async (req, res, next) => {
 //   if (req.headers && req.headers.authorization) {
@@ -34,7 +34,7 @@ admin.initializeApp({
 //     return res.status(403).send({ error: "Unauthorized" });
 //   }
 // };
-require("../models/config");
+require("../config/config");
 const admin = require("firebase-admin");
 const serviceAccount = require("./serviceAccount.json");
 admin.initializeApp({
