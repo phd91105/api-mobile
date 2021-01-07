@@ -39,6 +39,20 @@ const getAllPriority = async (req, res) => {
   }
 };
 
+const getPriority = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await firestore.collection("priority").doc(id).get();
+    if (!data.exists) {
+      res.status(404).send({ message: "Priority with the given ID not found" });
+    } else {
+      res.send({ status: "ok", data: data.data() });
+    }
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 const updatePriority = async (req, res) => {
   try {
     const id = req.params.id;
@@ -64,6 +78,7 @@ const deletePriority = async (req, res) => {
 module.exports = {
   addPriority,
   getAllPriority,
+  getPriority,
   updatePriority,
   deletePriority,
 };

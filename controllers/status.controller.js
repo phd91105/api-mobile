@@ -20,6 +20,20 @@ const addStatus = async (req, res) => {
   }
 };
 
+const getStatus = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await firestore.collection("status").doc(id).get();
+    if (!data.exists) {
+      res.status(404).send({ message: "Status with the given ID not found" });
+    } else {
+      res.send({ status: "ok", data: data.data() });
+    }
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 const getAllStatus = async (req, res) => {
   try {
     const status = await firestore.collection("status");
@@ -61,6 +75,7 @@ const deleteStatus = async (req, res) => {
 module.exports = {
   addStatus,
   getAllStatus,
+  getStatus,
   updateStatus,
   deleteStatus,
 };
