@@ -37,7 +37,7 @@ const getStatus = async (req, res) => {
 const getAllStatus = async (req, res) => {
   try {
     const status = await firestore.collection("status");
-    var data = await status.where("uid", "==", req["userID"]).get();
+    const data = await status.where("uid", "==", req["userID"]).get();
     const statusArray = [];
 
     data.forEach((doc) => {

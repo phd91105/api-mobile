@@ -23,7 +23,7 @@ const addPriority = async (req, res) => {
 const getAllPriority = async (req, res) => {
   try {
     const priority = await firestore.collection("priority");
-    var data = await priority.where("uid", "==", req["userID"]).get();
+    const data = await priority.where("uid", "==", req["userID"]).get();
     const priorityArray = [];
     data.forEach((doc) => {
       const priority = new Priority(
@@ -57,7 +57,7 @@ const updatePriority = async (req, res) => {
   try {
     const id = req.params.id;
     const body = req.body;
-      const priority = await firestore.collection("priority").doc(id).get();
+    const priority = await firestore.collection("priority").doc(id).get();
     await priority.update(body);
     res.send({ message: "Priority record updated successfuly" });
   } catch (error) {

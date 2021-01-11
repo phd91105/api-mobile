@@ -9,7 +9,9 @@ function timeConverter(UNIX_timestamp) {
     year = a.getFullYear(),
     hour = a.getHours() + 7,
     min = a.getMinutes(),
-    time = `${addZero(hour)}:${addZero(min)} ${addZero(date)}/${addZero(month)}/${year}`;
+    time = `${addZero(hour)}:${addZero(min)} ${addZero(date)}/${addZero(
+      month
+    )}/${year}`;
   return time;
 }
 function addZero(i) {
@@ -44,9 +46,10 @@ const addNote = async (req, res) => {
 const getAllNotes = async (req, res) => {
   try {
     const category = req.query.category;
+    let data;
     const notes = await firestore.collection("notes");
     if (category) {
-      var data = await notes
+      data = await notes
         .where("uid", "==", req["userID"])
         .where("category", "==", category)
         .get();
@@ -79,9 +82,9 @@ const getAllNotes = async (req, res) => {
 };
 const getCount = async (req, res) => {
   try {
-    var sts = [];
+    let sts = [];
     const notes = await firestore.collection("notes");
-    var data = await notes.where("uid", "==", req["userID"]).get();
+    const data = await notes.where("uid", "==", req["userID"]).get();
     const notesArray = [];
     data.forEach((doc) => {
       const note = new Note(
@@ -98,10 +101,10 @@ const getCount = async (req, res) => {
       );
       notesArray.push(note);
     });
-    for (var i in notesArray) {
+    for (let i in notesArray) {
       sts.push(notesArray[i].status);
     }
-    var result = sts.reduce(function (p, c) {
+    let result = sts.reduce(function (p, c) {
       if (c in p) {
         p[c]++;
       } else {
@@ -117,7 +120,7 @@ const getCount = async (req, res) => {
 
 const getNote = async (req, res) => {
   try {
-    var arr = [];
+    let arr = [];
     const id = req.params.id;
     const data = await firestore.collection("notes").doc(id).get();
     if (!data.exists) {

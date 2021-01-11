@@ -23,7 +23,7 @@ const addCategory = async (req, res) => {
 const getAllCategories = async (req, res) => {
   try {
     const categories = await firestore.collection("categories");
-    var data = await categories.where("uid", "==", req["userID"]).get();
+    const data = await categories.where("uid", "==", req["userID"]).get();
     const categoriesArray = [];
     if (data.empty) {
       res.status(404).send({ message: "No category record found" });
