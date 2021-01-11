@@ -1,5 +1,3 @@
-require("firebase/app");
-require("../../config/config");
 const db = require("../../config/db");
 
 exports.addUser = (email, password) =>
