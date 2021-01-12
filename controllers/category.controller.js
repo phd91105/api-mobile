@@ -41,12 +41,15 @@ const getAllCategories = async (req, res) => {
 
 const getCategory = async (req, res) => {
   try {
+    let arr = [];
     const id = req.params.id;
     const data = await firestore.collection("categories").doc(id).get();
     if (!data.exists) {
-      res.status(404).send({ message: "Category with the given ID not found" });
+      res.status(404).send({ message: "Cat with the given ID not found" });
     } else {
-      res.send({ status: "ok", data: data.data() });
+      arr.push(data.data());
+      arr[0].id = id;
+      res.send({ status: "ok", data: arr[0] });
     }
   } catch (error) {
     res.status(400).send(error.message);
