@@ -25,19 +25,15 @@ const getAllCategories = async (req, res) => {
     const categories = await firestore.collection("categories");
     const data = await categories.where("uid", "==", req["userID"]).get();
     const categoriesArray = [];
-    if (data.empty) {
-      res.status(404).send({ message: "No category record found" });
-    } else {
-      data.forEach((doc) => {
-        const category = new Category(
-          doc.id,
-          doc.data().uid,
-          doc.data().cate_name
-        );
-        categoriesArray.push(category);
-      });
-      res.send({ status: "ok", data: categoriesArray });
-    }
+    data.forEach((doc) => {
+      const category = new Category(
+        doc.id,
+        doc.data().uid,
+        doc.data().cate_name
+      );
+      categoriesArray.push(category);
+    });
+    res.send({ status: "ok", data: categoriesArray });
   } catch (error) {
     res.status(400).send(error.message);
   }

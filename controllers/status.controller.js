@@ -54,7 +54,7 @@ const updateStatus = async (req, res) => {
   try {
     const id = req.params.id;
     const body = req.body;
-    const status = await firestore.collection("status").doc(id).get();
+    const status = await firestore.collection("status").doc(id);
     await status.update(body);
     res.send({ message: "Status record updated successfuly" });
   } catch (error) {
