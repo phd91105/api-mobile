@@ -101,7 +101,7 @@ const getCount = async (req, res) => {
       );
       notesarray.push(note);
     });
-    for (let i in notesarray) {
+    for (var i in notesarray) {
       sts.push(notesarray[i].status);
     }
     let result = sts.reduce(function (p, c) {
