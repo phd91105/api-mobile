@@ -85,7 +85,7 @@ const getCount = async (req, res) => {
     let sts = [];
     const notes = await firestore.collection("notes");
     const data = await notes.where("uid", "==", req["userID"]).get();
-    const notesArray = [];
+    const notesarray = [];
     data.forEach((doc) => {
       const note = new Note(
         doc.id,
@@ -99,10 +99,10 @@ const getCount = async (req, res) => {
         doc.data().priority,
         doc.data().status
       );
-      notesArray.push(note);
+      notesarray.push(note);
     });
-    for (let i in notesArray) {
-      sts.push(notesArray[i].status);
+    for (let i in notesarray) {
+      sts.push(notesarray[i].status);
     }
     let result = sts.reduce(function (p, c) {
       if (c in p) {
